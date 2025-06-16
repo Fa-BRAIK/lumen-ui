@@ -33,23 +33,13 @@ This roadmap outlines the planned features and improvements for Lumen UI, a comp
 - [] [Component] Textarea
 
 #### 🗓️ Planned
-- [] [Component] Accordion
 - [] [Component] Alert
 - [] [Component] AlertDialog
-- [] [Component] AspectRatio
 - [] [Component] Avatar
 - [] [Component] Badge
 - [] [Component] Breadcrumb
-- [] [Component] Calendar
 - [] [Component] Card
 - [] [Component] Carousel
-- [] [Component] Chart
-- [] [Component] Collapsible
-- [] [Component] Combobox
-- [] [Component] Command
-- [] [Component] ContextMenu
-- [] [Component] DataTable
-- [] [Component] DatePicker
 - [] [Component] Dialog
 - [] [Component] Drawer
 - [] [Component] DropdownMenu
@@ -60,12 +50,30 @@ This roadmap outlines the planned features and improvements for Lumen UI, a comp
 - [] [Component] Pagination
 - [] [Component] Popover
 - [] [Component] Progress
-- [] [Component] Resizable
-- [] [Component] Scroll-area
 - [] [Component] Separator
 - [] [Component] Sheet
 - [] [Component] Sidebar
-- [] [Component] Sonner (Toast)
 - [] [Component] Table
 - [] [Component] Tabs
 - [] [Component] Tooltip
+
+### 🚧 v0.2.0
+**Target: Q4 2025**
+- [] [Component] Accordion
+- [] [Component] AspectRatio
+
+### 🚧 v0.3.0 
+**Target: Q4 2025**
+- [] [Component] Scroll-area
+- [] [Component] DataTable
+- [] [Component] DatePicker
+- [] [Component] ContextMenu
+- [] [Component] Calendar
+- [] [Component] Chart
+- [] [Component] Combobox
+- [] [Component] Command
+- [] [Component] Collapsible
+
+### 🚧 v0.4.0
+- [] [Component] Resizable
+- [] [Component] Sonner (Toast)

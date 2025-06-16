@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Nuxtifyts\Lumen;
 
+use Nuxtifyts\Lumen\Support\Concerns\HasLumenSupport;
+use Override;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use TailwindMerge\Laravel\TailwindMergeServiceProvider;
 
 class LumenServiceProvider extends PackageServiceProvider
 {
+    use HasLumenSupport;
+
     public function configurePackage(Package $package): void
     {
         /*
@@ -18,8 +23,40 @@ class LumenServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('lumen-ui')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_lumen_ui_table');
+            ->hasConfigFile('lumen')
+            ->hasViews();
+    }
+
+    /**
+     * @phpstan-return static
+     */
+    #[Override]
+    public function register()
+    {
+        parent::register();
+
+        return $this
+            ->registerDependencies()
+            ->registerAliases()
+            ->registerSingletons();
+    }
+
+    /**
+     * @phpstan-return static
+     */
+    #[Override]
+    public function boot()
+    {
+        return parent::boot()
+            ->bootBladeDirectives()
+            ->bootBladeComponents()
+            ->bootLumenAssets();
+    }
+
+    protected function registerDependencies(): static
+    {
+        $this->app->register(TailwindMergeServiceProvider::class);
+
+        return $this;
     }
 }

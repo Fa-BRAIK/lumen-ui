@@ -1,0 +1,65 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Nuxtifyts\Lumen\Support\Blade;
+
+use Illuminate\Support\Facades\Blade;
+
+class Directives
+{
+    /**
+     * @desc Register Lumen/ui Blade Directives.
+     */
+    public function boot(): void
+    {
+        Blade::directive('lumenScripts', static function (): string {
+            $stackName = config('lumen.blade.stacks.scripts');
+            $compiledStack = Blade::compileString("@stack('{$stackName}')");
+
+            return <<<PHP
+                <?php app('livewire')->forceAssetInjection(); ?>
+                {$compiledStack}
+            PHP;
+        });
+
+        Blade::directive('pushLumenScripts', static function (): string {
+            $stackName = config('lumen.blade.stacks.scripts');
+
+            return Blade::compileString("@push('{$stackName}')");
+        });
+
+        Blade::directive('endPushLumenScripts', static fn (): string => Blade::compileString('@endPush()'));
+
+        Blade::directive('pushLumenScriptsOnce', static function (): string {
+            $stackName = config('lumen.blade.stacks.scripts');
+
+            return Blade::compileString("@pushOnce('{$stackName}')");
+        });
+
+        Blade::directive('endPushLumenScriptsOnce', static fn (): string => Blade::compileString('@endPushOnce()'));
+
+        Blade::directive('lumenStyles', static function (): string {
+            $stackName = config('lumen.blade.stacks.styles');
+            $compiledStack = Blade::compileString("@stack('{$stackName}')");
+
+            return $compiledStack;
+        });
+
+        Blade::directive('pushLumenStyles', static function (): string {
+            $stackName = config('lumen.blade.stacks.styles');
+
+            return Blade::compileString("@push('{$stackName}')");
+        });
+
+        Blade::directive('endPushLumenStyles', static fn (): string => Blade::compileString('@endPush()'));
+
+        Blade::directive('pushLumenStylesOnce', static function (): string {
+            $stackName = config('lumen.blade.stacks.styles');
+
+            return Blade::compileString("@pushOnce('{$stackName}')");
+        });
+
+        Blade::directive('endPushLumenStylesOnce', static fn (): string => Blade::compileString('@endPushOnce()'));
+    }
+}

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Nuxtifyts\Lumen\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Nuxtifyts\Lumen\LumenServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
@@ -13,18 +15,11 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Nuxtifyts\\Lumen\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Nuxtifyts\\Lumen\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 
-    protected function getPackageProviders($app)
-    {
-        return [
-            LumenServiceProvider::class,
-        ];
-    }
-
-    public function getEnvironmentSetUp($app)
+    public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
 
@@ -33,5 +28,12 @@ class TestCase extends Orchestra
             (include $migration->getRealPath())->up();
          }
          */
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [
+            LumenServiceProvider::class,
+        ];
     }
 }

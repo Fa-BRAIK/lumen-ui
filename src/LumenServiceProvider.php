@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Nuxtifyts\Lumen;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Nuxtifyts\Lumen\Commands\LumenCommand;
 
 class LumenServiceProvider extends PackageServiceProvider
 {
@@ -19,7 +20,6 @@ class LumenServiceProvider extends PackageServiceProvider
             ->name('lumen-ui')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_lumen_ui_table')
-            ->hasCommand(LumenCommand::class);
+            ->hasMigration('create_lumen_ui_table');
     }
 }

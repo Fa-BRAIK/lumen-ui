@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 use Nuxtifyts\Lumen\Support\ClassBuilder;
 
 covers(ClassBuilder::class);
 
-it('is capable of generating empty string', function () {
+it('is capable of generating empty string', function (): void {
     expect((string) ClassBuilder::make())->toBe('');
 });
 
-it('is capable of adding classes', function (array $classes, string $expected) {
+it('is capable of adding classes', function (array $classes, string $expected): void {
     $classBuilder = ClassBuilder::make();
 
     foreach ($classes as $class) {

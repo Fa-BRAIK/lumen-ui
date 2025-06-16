@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Nuxtifyts\Lumen\Support\ClassVarianceAuthority;
 
 covers(ClassVarianceAuthority::class);
@@ -9,7 +11,7 @@ it('will resolve basic class variants', function (
     array $config,
     array $invokeArgs,
     string $expected,
-) {
+): void {
     $componentVariance = new class(baseClasses: $baseClasses, config: $config) extends ClassVarianceAuthority {};
 
     expect((string) $componentVariance(...$invokeArgs))->toBe($expected);

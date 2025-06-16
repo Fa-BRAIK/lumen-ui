@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Nuxtifyts\Lumen\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LumenCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'lumen-ui';
 
     public $description = 'My command';
 

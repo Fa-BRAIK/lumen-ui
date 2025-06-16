@@ -1,13 +1,13 @@
 @props([
+    'as' => 'button',
     'variant' => null,
     'size' => null,
     'type' => 'button',
 ])
 
-<?php
-use Nuxtifyts\Lumen\Support\ClassVarianceAuthority;
+@use('Nuxtifyts\Lumen\Support\ClassVarianceAuthority')
 
-$buttonVariants = new class (
+@php($buttonVariants = new class (
     baseClasses: 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
     config: [
         'variants' => [
@@ -31,16 +31,13 @@ $buttonVariants = new class (
             'size' => 'base',
         ],
     ],
-) extends ClassVarianceAuthority {}; ?>
+) extends ClassVarianceAuthority {})
 
-<button
-    {{ 
-        $attributes
-            ->twMerge($buttonVariants(variant: $variant, size: $size))
-            ->merge([
-                'type' => $type,
-            ])
-    }}
->
+@php($attributes = $attributes
+    ->twMerge($buttonVariants(variant: $variant, size: $size))
+    ->merge($as === 'button' ? ['type' => $type] : [])
+    ->merge(['as' => $as]))
+
+<x-lumen::primitive :attributes="$attributes">
     {{ $slot }}
-</button>
+</x-lumen::primitive>

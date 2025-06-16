@@ -24,7 +24,7 @@ class LumenServiceProvider extends PackageServiceProvider
         $package
             ->name('lumen-ui')
             ->hasConfigFile('lumen')
-            ->hasViews();
+            ->hasViews('lumen');
     }
 
     /**

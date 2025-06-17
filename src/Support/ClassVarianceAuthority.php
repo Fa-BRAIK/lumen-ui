@@ -9,7 +9,7 @@ use Nuxtifyts\Lumen\Support\ClassVarianceAuthorityConfig\CompoundVariant;
 use Nuxtifyts\Lumen\Support\ClassVarianceAuthorityConfig\VariantConfig;
 
 abstract class ClassVarianceAuthority
-{   
+{
     /**
      * @var list<string>
      */

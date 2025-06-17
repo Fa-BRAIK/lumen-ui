@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Nuxtifyts\Lumen\Support\Blade\Components\Primitive;
 
-/** 
+/**
  * @note Generated using Github Copilot
  */
 enum AsTag: string
@@ -17,12 +19,12 @@ enum AsTag: string
     case Label = 'label';
     case Span = 'span';
     case Nav = 'nav';
-    
+
     // Lists
     case Ul = 'ul';
     case Ol = 'ol';
     case Li = 'li';
-    
+
     // Headings
     case H1 = 'h1';
     case H2 = 'h2';
@@ -30,7 +32,7 @@ enum AsTag: string
     case H4 = 'h4';
     case H5 = 'h5';
     case H6 = 'h6';
-    
+
     // Text content
     case P = 'p';
     case Pre = 'pre';
@@ -49,7 +51,7 @@ enum AsTag: string
     case Cite = 'cite';
     case Q = 'q';
     case Blockquote = 'blockquote';
-    
+
     // Semantic HTML5 elements
     case Main = 'main';
     case Section = 'section';
@@ -58,7 +60,7 @@ enum AsTag: string
     case Footer = 'footer';
     case Aside = 'aside';
     case Address = 'address';
-    
+
     // Tables
     case Table = 'table';
     case Thead = 'thead';
@@ -70,7 +72,7 @@ enum AsTag: string
     case Caption = 'caption';
     case Colgroup = 'colgroup';
     case Col = 'col';
-    
+
     // Forms
     case Fieldset = 'fieldset';
     case Legend = 'legend';
@@ -82,7 +84,7 @@ enum AsTag: string
     case Output = 'output';
     case Progress = 'progress';
     case Meter = 'meter';
-    
+
     // Media
     case Video = 'video';
     case Audio = 'audio';
@@ -93,23 +95,23 @@ enum AsTag: string
     case Figure = 'figure';
     case Figcaption = 'figcaption';
     case Svg = 'svg';
-    
+
     // Interactive
     case Details = 'details';
     case Summary = 'summary';
     case Dialog = 'dialog';
     case Menu = 'menu';
-    
+
     // Definition lists
     case Dl = 'dl';
     case Dt = 'dt';
     case Dd = 'dd';
-    
+
     // Line breaks and formatting
     case Br = 'br';
     case Hr = 'hr';
     case Wbr = 'wbr';
-    
+
     // Less common but useful
     case Del = 'del';
     case Ins = 'ins';

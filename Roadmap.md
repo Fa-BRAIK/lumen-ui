@@ -22,6 +22,7 @@ This roadmap outlines the planned features and improvements for Lumen UI, a comp
 #### 🚧 In Progress
 - [] Lumen UI docs
 - [] Component script management
+- [] [Component] Badge
 - [] [Component] Checkbox
 - [] [Component] Select
 - [] [Component] RadioGroup
@@ -36,7 +37,6 @@ This roadmap outlines the planned features and improvements for Lumen UI, a comp
 - [] [Component] Alert
 - [] [Component] AlertDialog
 - [] [Component] Avatar
-- [] [Component] Badge
 - [] [Component] Breadcrumb
 - [] [Component] Card
 - [] [Component] Carousel

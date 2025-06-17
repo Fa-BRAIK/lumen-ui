@@ -11,9 +11,9 @@
 ))
 
 @if ($as->isSelfClosing())
-    <{{ $as->value }} {!! $attributes !!}/>
+    <{{ $as->value }} {!! html_entity_decode($attributes) !!}/>
 @else
-    <{{ $as->value }} {!! $attributes !!}>
+    <{{ $as->value }} {!! html_entity_decode($attributes) !!}>
         {{ $slot }}
     </{{ $as->value }}>
 @endif

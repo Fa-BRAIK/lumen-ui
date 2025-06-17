@@ -21,6 +21,7 @@ This roadmap outlines the planned features and improvements for Lumen UI, a comp
 
 #### 🚧 In Progress
 - [] Lumen UI docs
+- [] Lumen UI Documentation builder & renderer
 - [] Component script management
 - [] [Component] Badge
 - [] [Component] Checkbox
@@ -59,11 +60,16 @@ This roadmap outlines the planned features and improvements for Lumen UI, a comp
 
 ### 🚧 v0.2.0
 **Target: Q4 2025**
+
+#### 🗓️ Planned
+- [] Lumen UI Documentation builder cache
 - [] [Component] Accordion
 - [] [Component] AspectRatio
 
 ### 🚧 v0.3.0 
 **Target: Q4 2025**
+
+#### 🗓️ Planned
 - [] [Component] Scroll-area
 - [] [Component] DataTable
 - [] [Component] DatePicker
@@ -75,5 +81,7 @@ This roadmap outlines the planned features and improvements for Lumen UI, a comp
 - [] [Component] Collapsible
 
 ### 🚧 v0.4.0
+
+#### 🗓️ Planned
 - [] [Component] Resizable
 - [] [Component] Sonner (Toast)

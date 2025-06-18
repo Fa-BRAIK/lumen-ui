@@ -37,4 +37,4 @@ export const RegisterToggleThemeStore = ({
             this.__applyTheme();
         }
     });
-}
+};

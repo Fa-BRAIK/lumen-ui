@@ -5,8 +5,7 @@ export const RegisterIsMobileStore = ({
     const mql = window.matchMedia(`(max-width: ${mobileBreakdown - 1}px)`);
 
     const onChange = () => {
-        console.log(`Media query changed: ${mql.matches ? 'Mobile' : 'Desktop'}`);
-        Alpine.store(storeName).isMobile = window.innerWidth < mobileBreakdown
+        Alpine.store(storeName).isMobile = window.innerWidth < mobileBreakdown   
     };
 
     Alpine.store(storeName, {

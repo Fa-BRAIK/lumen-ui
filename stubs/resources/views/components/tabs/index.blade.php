@@ -20,6 +20,7 @@
 @php($attributes = $attributes
     ->twMerge('flex flex-col gap-2')
     ->merge([
+        'as' => $as,
         'x-tab' => Js::from(compact('value', 'defaultValue', 'orientation', 'dir', 'activationMode')),
         'data-slot' => 'tabs',
     ]))

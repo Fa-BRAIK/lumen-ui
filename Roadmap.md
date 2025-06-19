@@ -18,6 +18,7 @@ This roadmap outlines the planned features and improvements for Lumen UI, a comp
 - [x] [Component] Primitive
 - [x] [Components] Typography
 - [x] [Component] Button
+- [x] [Component] Tabs
 
 #### 🚧 In Progress
 - [] Lumen UI docs
@@ -55,7 +56,6 @@ This roadmap outlines the planned features and improvements for Lumen UI, a comp
 - [] [Component] Sheet
 - [] [Component] Sidebar
 - [] [Component] Table
-- [] [Component] Tabs
 - [] [Component] Tooltip
 
 ### 🚧 v0.2.0
@@ -63,6 +63,7 @@ This roadmap outlines the planned features and improvements for Lumen UI, a comp
 
 #### 🗓️ Planned
 - [] Lumen UI Documentation builder cache
+- [] Lumen UI CodeBlock copy to clipboard
 - [] [Component] Accordion
 - [] [Component] AspectRatio
 

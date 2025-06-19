@@ -8,7 +8,6 @@
         'tab-index' => '0',
         'data-slot' => 'tabs-content',
         'role' => 'tabpanel',
-        'x-cloak' => '',
         'x-tab:content' => Js::from(compact('value')),
     ]))
 

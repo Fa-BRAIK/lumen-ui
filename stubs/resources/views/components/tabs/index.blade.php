@@ -41,7 +41,10 @@
             ':data-orientation'() {
                 return this.orientation;
             },
-        }
+            ':aria-orientation'() {
+                return this.orientation;
+            },
+        };
 
         const handleRoot = (el, Alpine, {value, defaultValue, orientation, dir, activationMode}) => {
             Alpine.bind(el, () => ({

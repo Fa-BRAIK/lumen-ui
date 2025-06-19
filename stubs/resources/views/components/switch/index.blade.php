@@ -43,7 +43,7 @@
                         this.__onValueChange(!this.__value);
                     }
                 },
-                'keydown.enter.prevent'() {
+                '@keydown.enter'() {
                     if (! this.disabled) {
                         this.__onValueChange(!this.__value);
                     }

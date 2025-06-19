@@ -1,31 +1,27 @@
 @props([
     'as' => 'button',
-    'indicatorAs' => 'span',
-    'defaultChecked' => false,
+    'thumbAs' => 'span',
     'disabled' => false,
+    'defaultChecked' => false,
 ])
 
 @php($attributes = $attributes
-    ->twMerge('peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50')
+    ->twMerge('peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50')
     ->merge([
         'as' => $as,
         'type' => 'button',
-        'role' => 'checkbox',
-        'x-checkbox' => Js::from(compact('defaultChecked', 'disabled')),
+        'role' => 'switch',
+        'data-slot' => 'switch',
+        'x-switch' => Js::from(compact('defaultChecked', 'disabled'))
     ]))
 
 <x-lumen::primitive :attributes="$attributes">
-    <template x-if="checked">
-        <x-lumen::primitive
-            :as="$indicatorAs"
-            data-slot="checkbox-indicator"
-            data-state="checked"
-            class="flex items-center justify-center text-current transition-none"
-            style="pointer-events: none;"
-        >
-            <x-lucide-check class="size-3.5" />
-        </x-lumen::primitive>
-    </template>
+    <x-lumen::primitive
+        :as="$thumbAs"
+        data-slot="switch-thumb"
+        x-bind:data-state="checked ? 'checked' : 'unchecked'"
+        class="bg-background dark:data-[state=unchecked]:bg-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"
+    />
 </x-lumen::primitive>
 
 @pushLumenScriptsOnce
@@ -36,10 +32,18 @@
                 ':aria-checked'() {
                     return this.__value ? 'true' : 'false';
                 },
+                ':disabled'() {
+                    return this.disabled ? 'disabled' : undefined;
+                },
                 ':data-state'() {
                     return this.__value ? 'checked' : 'unchecked';
                 },
                 '@click'() {
+                    if (! this.disabled) {
+                        this.__onValueChange(!this.__value);
+                    }
+                },
+                'keydown.enter.prevent'() {
                     if (! this.disabled) {
                         this.__onValueChange(!this.__value);
                     }
@@ -59,15 +63,15 @@
                         },
 
                         init() {
-                            this.$el.removeAttribute('x-checkbox');
-                        }
+                            this.$el.removeAttribute('x-switch');
+                        },
                     }
                 },
                 'x-modelable': '__value',
             }));
         };
 
-        Alpine.directive('checkbox', (e, {value, expression}, {Alpine, evaluate}) => {
+        Alpine.directive('switch', (e, {value, expression}, {Alpine, evaluate}) => {
             const params = expression ? evaluate(expression) : {};
 
             if (! value) handleRoot(e, Alpine, params);

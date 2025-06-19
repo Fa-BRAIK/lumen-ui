@@ -1,7 +1,6 @@
 @props([
     'as' => 'button',
     'indicatorAs' => 'span',
-    'checked' => false,
     'defaultChecked' => false,
     'disabled' => false,
 ])
@@ -12,14 +11,13 @@
         'as' => $as,
         'type' => 'button',
         'role' => 'checkbox',
-        'x-checkbox' => Js::from(compact('checked', 'defaultChecked', 'disabled')),
+        'x-checkbox' => Js::from(compact('defaultChecked', 'disabled')),
     ]))
 
 <x-lumen::primitive :attributes="$attributes">
     <template x-if="checked">
         <x-lumen::primitive
             :as="$indicatorAs"
-            x-bind="indicator"
             data-slot="checkbox-indicator"
             data-state="checked"
             class="flex items-center justify-center text-current transition-none"
@@ -33,7 +31,7 @@
 @pushLumenScriptsOnce
 <script>
     document.addEventListener('alpine:init', () => {
-        const handleRoot = (el, Alpine, { checked, defaultChecked, disabled }) => {
+        const handleRoot = (el, Alpine, { defaultChecked, disabled }) => {
             Alpine.bind(el, () => ({
                 ':aria-checked'() {
                     return this.__value ? 'true' : 'false';
@@ -48,7 +46,7 @@
                 },
                 'x-data'() {
                     return {
-                        __value: checked,
+                        __value: defaultChecked,
                         defaultChecked,
                         disabled,
 

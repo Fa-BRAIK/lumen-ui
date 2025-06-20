@@ -34,7 +34,7 @@
         'data-slot' => 'toggle-group',
         'data-variant' => $variant,
         'data-size' => $size,
-        'tab-index' => $disabled ? '-1' : '0',
+        'tabindex' => '-1',
         "x-toggle-group.$type" => Js::from(compact('defaultValue', 'rovingFocus', 'orientation', 'dir', 'loop', 'disabled'))
     ])
     ->exceptProps(['default-value']))

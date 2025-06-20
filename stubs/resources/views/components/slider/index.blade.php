@@ -434,7 +434,7 @@
             else if (value === 'range') handleRange(el, Alpine, params);
             else if (value === 'thumb') handleThumb(el, Alpine, params);
             else {
-                console.warn(`Unknown tab directive value: ${value}`);
+                console.warn(`Unknown slider directive value: ${value}`);
             }
         });
     });

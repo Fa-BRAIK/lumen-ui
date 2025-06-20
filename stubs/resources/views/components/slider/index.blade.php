@@ -32,7 +32,7 @@
         'x-slider' => Js::from(compact('min', 'max', 'step', 'minStepBetweenThumbs', 'defaultValue', 'rovingFocus', 'orientation', 'dir', 'disabled')),
         'style' => Arr::toCssStyles([
             '--lumen-slider-thumb-transform-x: translateX(-50%)',
-            '--lumen-slider-thumb-transform: translate(-50%, -50%)',
+            '--lumen-slider-thumb-transform: translate(-50%, 50%)',
         ])
     ])
     ->exceptProps(['default-value']))
@@ -182,7 +182,7 @@
                         }
                         : {
                             height: `${this.maxRange - this.minRange}%`,
-                            top: `${this.minRange}%`,
+                            bottom: `${this.minRange}%`,
                         };
                 },
                 'x-data'() {
@@ -367,7 +367,7 @@
                             const clientY = event.clientY ?? event.touches[0].clientY;
                             const mouseOnTrackPosition = Math.min(Math.max(track.top, clientY), track.bottom);
                             const percentage = (mouseOnTrackPosition - minPosition) / (maxPosition - minPosition);
-                            const value = Math.round(this.min + (percentage * (this.max - this.min)) / this.step) * this.step;
+                            const value = this.max - Math.round(this.min + (percentage * (this.max - this.min)) / this.step) * this.step;
 
                             if (! this.__acceptsNewValue(value, this.__index)) {
                                 return;
@@ -389,7 +389,7 @@
                                     this.$el.parentElement.style.setProperty('transform', 'var(--lumen-slider-thumb-transform-x)');
                                 } else {
                                     this.$el.parentElement.style.setProperty('left', '50%');
-                                    this.$el.parentElement.style.setProperty('top', `${newValue}%`);
+                                    this.$el.parentElement.style.setProperty('bottom', `${newValue}%`);
                                     this.$el.parentElement.style.setProperty('transform', 'var(--lumen-slider-thumb-transform)');
                                 }
 

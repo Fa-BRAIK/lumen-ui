@@ -12,6 +12,11 @@
     border-color: var(--color-border);
     outline-color: color-mix(in oklab, var(--color-ring) 50%, transparent)
   }
+
+  [data-slot="slider-thumb"],
+  [data-slot="slider-track"] {
+    cursor: pointer;
+  }
 }
 
 @theme {

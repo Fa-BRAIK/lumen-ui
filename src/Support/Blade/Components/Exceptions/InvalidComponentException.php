@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Nuxtifyts\Lumen\Support\Blade\Components\Exceptions;
 
-use Exception;
+use RuntimeException;
 
-class InvalidComponentException extends Exception
+class InvalidComponentException extends RuntimeException
 {
     protected const int INVALID_PRIMITIVE_TAG = 10000;
     protected const int INVALID_TOGGLE_GROUP_TYPE = 20000;
+    protected const int INVALID_SLIDER_STEP = 30000;
 
     public static function invalidPrimitiveTag(): self
     {
@@ -24,6 +25,14 @@ class InvalidComponentException extends Exception
         return new self(
             message: 'Invalid toggle group type provided.',
             code: self::INVALID_TOGGLE_GROUP_TYPE
+        );
+    }
+
+    public static function invalidSliderStep(): self
+    {
+        return new self(
+            message: 'Invalid slider step provided.',
+            code: self::INVALID_SLIDER_STEP
         );
     }
 }

@@ -20,7 +20,7 @@
     ]))
 
 <x-lumen::primitive :attributes="$attributes">
-    <template x-if=checked>
+    <template x-if="checked">
         <span 
             data-state="checked"
             data-slot="radio-group-indicator"

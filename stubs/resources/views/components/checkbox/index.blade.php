@@ -29,8 +29,8 @@
 </x-lumen::primitive>
 
 @pushLumenScriptsOnce
-<script>
-    document.addEventListener('alpine:init', () => {
+<script type="text/javascript" data-navigate-once="true">
+    document.addEventListener(typeof Alpine === 'undefined' ? 'alpine:init' : 'livewire:navigated', () => {
         const handleRoot = (el, Alpine, { defaultChecked, disabled }) => {
             Alpine.bind(el, () => ({
                 ':aria-checked'() {
@@ -75,6 +75,6 @@
                 console.warn(`Unknown checkbox directive value: ${value}`);
             }
         });
-    });
+    }, { once: true });
 </script>
 @endPushLumenScriptsOnce

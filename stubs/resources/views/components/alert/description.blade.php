@@ -1,0 +1,14 @@
+@props([
+    'as' => 'div',
+])
+
+@php($attributes = $attributes
+    ->twMerge('text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed')
+    ->merge([
+        'as' => $as,
+        'data-slot' => 'alert-description'
+    ]))
+
+<x-lumen::primitive :attributes="$attributes">
+    {{ $slot }}
+</x-lumen::primitive>

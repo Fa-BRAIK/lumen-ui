@@ -30,8 +30,8 @@
 </x-lumen::primitive>
 
 @pushLumenScriptsOnce
-<script>
-    document.addEventListener('alpine:init', () => {
+<script type="text/javascript" data-navigate-once="true">
+    document.addEventListener(typeof Alpine === 'undefined' ? 'alpine:init' : 'livewire:navigated', () => {
         const TAB_COMPONENT_ID = 'tabs';
 
         const commonProps = {
@@ -205,6 +205,6 @@
                 console.warn(`Unknown tab directive value: ${value}`);
             }
         });
-    });
+    }, { once: true });
 </script>
 @endPushLumenScriptsOnce

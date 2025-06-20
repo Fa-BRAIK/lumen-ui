@@ -23,8 +23,8 @@
 </x-lumen::primitive>
 
 @pushLumenScriptsOnce
-<script>
-    document.addEventListener('alpine:init', () => {
+<script type="text/javascript" data-navigate-once="true">
+    document.addEventListener(typeof Alpine === 'undefined' ? 'alpine:init' : 'livewire:navigated', () => {
         const commonProps = {
             ':dir'() {
                 return this.dir;
@@ -159,6 +159,6 @@
                 console.warn(`Unknown radio group directive value: ${value}`);
             }
         });
-    });
+    }, { once: true });
 </script>
 @endPushLumenScriptsOnce

@@ -1,4 +1,5 @@
 @props([
+    'as' => 'div',
     'value',
 ])
 

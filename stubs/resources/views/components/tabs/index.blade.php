@@ -1,9 +1,6 @@
 @props([
     'as' => 'div',
 
-    // The value of the selected tab, if controlled.
-    'value' => null,
-
     // The value of the tab to select by default, if uncontrolled.
     'defaultValue' => null,
 
@@ -21,7 +18,7 @@
     ->twMerge('flex flex-col gap-2')
     ->merge([
         'as' => $as,
-        'x-tab' => Js::from(compact('value', 'defaultValue', 'orientation', 'dir', 'activationMode')),
+        'x-tab' => Js::from(compact('defaultValue', 'orientation', 'dir', 'activationMode')),
         'data-slot' => 'tabs',
     ]))
 
@@ -46,7 +43,7 @@
             },
         };
 
-        const handleRoot = (el, Alpine, {value, defaultValue, orientation, dir, activationMode}) => {
+        const handleRoot = (el, Alpine, {defaultValue, orientation, dir, activationMode}) => {
             Alpine.bind(el, () => ({
                 ...commonProps,
                 'x-id'() {
@@ -54,7 +51,7 @@
                 },
                 'x-data'() {
                     return {
-                        __value: value,
+                        __value: defaultValue,
                         defaultValue,
                         orientation,
                         dir,
@@ -92,6 +89,54 @@
         const handleList = (el, Alpine, {loop}) => {
             Alpine.bind(el, () => ({
                 ...commonProps,
+                '@keydown.right'() {
+                    if (this.orientation !== 'horizontal') {
+                        return;
+                    }
+
+                    if (this.$focus.getNext()) {
+                        this.$focus.next();
+                    } else if (this.loop) {
+                        this.$focus.first();
+                    }
+                },
+                '@keydown.left'() {
+                    if (this.orientation !== 'horizontal') {
+                        return;
+                    }
+
+                    if (this.$focus.getPrevious()) {
+                        this.$focus.previous();
+                    } else if (this.loop) {
+                        this.$focus.last();
+                    }
+                },
+                '@keydown.down'(event) {
+                    if (this.orientation !== 'vertical') {
+                        return;
+                    }
+
+                    event.preventDefault();
+
+                    if (this.$focus.getNext()) {
+                        this.$focus.next();
+                    } else if (this.loop) {
+                        this.$focus.first();
+                    }
+                },
+                '@keydown.up'(event) {
+                    if (this.orientation !== 'vertical') {
+                        return;
+                    }
+
+                    event.preventDefault();
+
+                    if (this.$focus.getPrevious()) {
+                        this.$focus.previous();
+                    } else if (this.loop) {
+                        this.$focus.last();
+                    }
+                },
                 'x-data'() {
                     return {
                         loop,

@@ -1,4 +1,5 @@
 @props([
+    'as' => 'div',
     'loop' => true,
 ])
 
@@ -7,6 +8,7 @@
     ->merge([
         'data-slot' => 'tabs-list',
         'role' => 'tablist',
+        'tabindex' => '0',
         'x-tab:list' => Js::from(compact('loop')),
     ]))
 

@@ -13,6 +13,7 @@
         'disabled' => $disabled,
         'data-slot' => 'tabs-trigger',
         'role' => 'tab',
+        'tabindex' => '0',
         'x-tab:trigger' => Js::from(compact('value')),
     ]))
 

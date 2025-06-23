@@ -1,12 +1,12 @@
 {
     "name": "nuxtifyts/lumen-ui",
-    "description": "Lumen/ui is a tall stack components library inspired from shadcn/ui",
+    "description": "Lumen UI is a tall stack components library inspired from shadcn/ui",
     "keywords": [
         "Nuxtifyts",
         "laravel",
         "lumen-ui"
     ],
-    "homepage": "https://github.com/nuxtifyts/lumen-ui",
+    "homepage": "https://github.com/Fa-BRAIK/lumen-ui",
     "license": "MIT",
     "authors": [
         {

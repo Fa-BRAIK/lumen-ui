@@ -3,15 +3,22 @@
 
 @props([
     'as' => AsTag::Div,
+    'asChild' => false,
 ])
 
 @php(throw_unless(
-    ($as = is_string($as) || is_numeric($as) ? AsTag::tryFrom($as) : $as) instanceof AsTag,
+    $asChild 
+    || (($as = is_string($as) || is_numeric($as) ? AsTag::tryFrom($as) : $as) instanceof AsTag),
     InvalidComponentException::invalidPrimitiveTag()
 ))
 
-@if ($as->isSelfClosing())
-    <{{ $as->value }} {!! html_entity_decode($attributes) !!}/>
+@if ($asChild)
+   {!! app('lumen.components')->parseSlotWithAdditionalAttributes($slot, $attributes) !!}
 @else
-    <{{ $as->value }} {!! html_entity_decode($attributes) !!}>{{ $slot }}</{{ $as->value }}>
+    @if ($as->isSelfClosing())
+        <{{ $as->value }} {!! html_entity_decode($attributes) !!}/>
+    @else
+        <{{ $as->value }} {!! html_entity_decode($attributes) !!}>{{ $slot }}</{{ $as->value }}>
+    @endif
 @endif
+

@@ -15,6 +15,7 @@ trait HasLumenSupport
     {
         app()->alias(Lumen::class, 'lumen');
         app()->alias(Manager::class, 'lumen.assets');
+        app()->alias(Components::class, 'lumen.components');
 
         return $this;
     }

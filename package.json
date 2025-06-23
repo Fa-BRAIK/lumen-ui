@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@alpinejs/focus": "^3.14.9",
+    "@floating-ui/dom": "^1.7.1"
+  }
+}

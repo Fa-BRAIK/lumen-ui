@@ -20,7 +20,6 @@
 }
 
 @theme {
-  --font-sans: Inter, sans-serif;
   --radius-default: 0.3rem;
   --color-background: oklch(1 0 0);
   --color-foreground: oklch(0.141 0.005 285.823);

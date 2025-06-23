@@ -27,34 +27,77 @@
 @pushLumenScriptsOnce
 <script type="text/javascript" data-navigate-once="true">
     document.addEventListener(typeof Alpine === 'undefined' ? 'alpine:init' : 'livewire:navigated', () => {
+        const stateProps = {
+            ':data-state'() {
+                return this.__open
+                    ? this.delayDuration > 0 ? 'delayed-open' : 'instant-open'
+                    : 'closed';
+            },
+        };
+        
         const handleRoot = (el, Alpine, { delayDuration, skipDelayDuration, defaultOpen }) => {
             Alpine.bind(el, () => ({
                 '@keydown.escape.window'() {
                     if (! this.__open) return;
 
-                    this.__onOpenChange(false);
+                    this.__onOpenChange(false, true);
                 },
                 '@keydown.space.window'(event) {
                     if (! this.__open) return;
 
                     event.preventDefault();
 
-                    this.__onOpenChange(!this.__open);
+                    this.__onOpenChange(false, true);
                 },
                 '@keydown.enter.window'() {
                     if (! this.__open) return;
 
-                    this.__onOpenChange(!this.__open);
+                    this.__onOpenChange(false, true);
                 },
                 'x-data'() {
                     return {
                         __open: defaultOpen,
+                        __timeouts: new Map(),
                         defaultOpen,
                         delayDuration,
                         skipDelayDuration,
 
-                        __onOpenChange(newValue) {
-                            this.__open = newValue;
+                        __onOpenChange(newValue, skipDelay = false) {
+                            if (newValue && !skipDelay && this.delayDuration > 0) {
+                                this.__setTimeout('open', () => {
+                                    this.__open = true;
+                                }, this.delayDuration);
+                            } else if (newValue) {
+                                this.__clearTimeout('open');
+                                this.__open = true;
+                            } else {
+                                this.__clearTimeout('open');
+                                this.__open = false;
+                            }
+                        },
+
+                        __setTimeout(key, callback, delay) {
+                            // Clear existing timeout
+                            this.__clearTimeout(key);
+                            
+                            if (delay <= 0) {
+                                callback();
+                                return;
+                            }
+                            
+                            const timeoutId = setTimeout(() => {
+                                callback();
+                                this.__timeouts.delete(key);
+                            }, delay);
+                            
+                            this.__timeouts.set(key, timeoutId);
+                        },
+
+                        __clearTimeout(key) {
+                            if (this.__timeouts.has(key)) {
+                                clearTimeout(this.__timeouts.get(key));
+                                this.__timeouts.delete(key);
+                            }
                         },
 
                         get __button() {
@@ -74,6 +117,11 @@
                                     'x-ref': 'arrow'
                                 })
                             );
+                        },
+
+                        destroy() {
+                            this.__timeouts.forEach(timeoutId => clearTimeout(timeoutId));
+                            this.__timeouts.clear();
                         }
                     }
                 },
@@ -83,6 +131,7 @@
 
         const handleTrigger = (el, Alpine, {}) => {
             Alpine.bind(el, () => ({
+                ...stateProps,
                 '@mouseenter'() {
                     this.__onOpenChange(true);
                 },
@@ -99,6 +148,13 @@
 
         const handleContent = (el, Alpine, { side, align, sideOffset, avoidCollisions, arrow }) => {
             Alpine.bind(el, () => ({
+                ...stateProps,
+                ':data-side'() {
+                    return side;
+                },
+                ':data-align'() {
+                    return align;
+                },
                 'x-show'() {
                     return this.__open;
                 },

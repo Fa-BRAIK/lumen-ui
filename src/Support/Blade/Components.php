@@ -48,13 +48,13 @@ class Components
             function ($matches) use ($attributes) {
                 $openTag = $matches[1];
                 $closeChar = $matches[2];
-                
+
                 // Add attributes
                 $attributeString = '';
                 foreach ($attributes->getAttributes() as $name => $value) {
                     $attributeString .= ' ' . $name . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
                 }
-                
+
                 return $openTag . $attributeString . $closeChar;
             },
             $slot->toHtml(),

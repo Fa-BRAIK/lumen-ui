@@ -17,7 +17,7 @@ class Directives
             $stackName = config('lumen.blade.stacks.scripts');
             $compiledStack = Blade::compileString("@stack('{$stackName}')");
 
-            $compiledLivewireScriptConfig = Blade::compileString("@livewireScriptConfig");
+            $compiledLivewireScriptConfig = Blade::compileString('@livewireScriptConfig');
 
             return <<<PHP
                 {$compiledLivewireScriptConfig}
@@ -41,8 +41,8 @@ class Directives
 
         Blade::directive('endPushLumenScriptsOnce', static fn (): string => Blade::compileString('@endPushOnce()'));
 
-        Blade::directive('lumenStyles', static function (): string { 
-            $compiledLivewireStyles  = Blade::compileString("@livewireStyles");
+        Blade::directive('lumenStyles', static function (): string {
+            $compiledLivewireStyles = Blade::compileString('@livewireStyles');
 
             $stackName = config('lumen.blade.stacks.styles');
             $compiledStack = Blade::compileString("@stack('{$stackName}')");

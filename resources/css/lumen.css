@@ -13,6 +13,10 @@
     outline-color: color-mix(in oklab, var(--color-ring) 50%, transparent)
   }
 
+  body[data-scroll-locked="1"] {
+    overflow: hidden;
+  }
+
   [data-slot="slider-thumb"],
   [data-slot="slider-track"] {
     cursor: pointer;

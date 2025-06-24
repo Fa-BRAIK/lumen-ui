@@ -62,6 +62,14 @@
                         delayDuration,
                         skipDelayDuration,
 
+                        get __trigger() {
+                            return this.$refs.trigger;
+                        },
+
+                        get __arrow() {
+                            return this.$refs.arrow;
+                        },
+
                         __onOpenChange(newValue, skipDelay = false) {
                             if (newValue && !skipDelay && this.delayDuration > 0) {
                                 this.__setTimeout('open', () => {
@@ -100,14 +108,6 @@
                             }
                         },
 
-                        get __button() {
-                            return this.$refs.button;
-                        },
-
-                        get __arrow() {
-                            return this.$refs.arrow;
-                        },
-
                         init() {
                             this.$el.removeAttribute('x-tooltip');
 
@@ -138,7 +138,7 @@
                 '@mouseleave'() {
                     this.__onOpenChange(false);
                 },
-                'x-ref': 'button',
+                'x-ref': 'trigger',
                 'x-data': '',
                 'x-init'() {
                     this.$el.removeAttribute('x-tooltip:trigger');
@@ -146,7 +146,7 @@
             }));
         };
 
-        const handleContent = (el, Alpine, { side, align, sideOffset, avoidCollisions, arrow }) => {
+        const handleContent = (el, Alpine, { side, align, sideOffset, arrow }) => {
             Alpine.bind(el, () => ({
                 ...stateProps,
                 ':data-side'() {
@@ -166,7 +166,7 @@
                 'x-transition:leave-end': 'opacity-0',
                 'x-anchorplus'() {
                     return {
-                        reference: this.__button,
+                        reference: this.__trigger,
                         placement: this.side + (this.align === 'center' ? '' : `-${this.align}`),
                         sideOffset: this.sideOffset,
                         arrowEl: this.arrow ? this.$refs.arrow : undefined
@@ -177,7 +177,6 @@
                         side,
                         align,
                         sideOffset,
-                        avoidCollisions,
                         arrow,
 
                         init() {

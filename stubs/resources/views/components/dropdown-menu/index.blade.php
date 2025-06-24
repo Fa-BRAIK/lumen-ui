@@ -24,6 +24,7 @@
 <script type="text/javascript" data-navigate-once="true">
     document.addEventListener(typeof Alpine === 'undefined' ? 'alpine:init' : 'livewire:navigated', () => {
         const DROPDOWN_MENU_COMPONENT_ID = 'dropdown-menu';
+        const DROPDOWN_MENU_SUB_COMPONENT_ID = 'dropdown-menu-sub';
         
         const handleRoot = (el, Alpine, { defaultOpen, dir, modal }) => {
             Alpine.bind(el, () => ({
@@ -192,6 +193,11 @@
             '@mouseenter'() {
                 this.$focus.focus(el);
                 this.isFocused = true;
+
+                this.$el
+                    .closest(`#${this.__makeContentId(this.$id(DROPDOWN_MENU_COMPONENT_ID))}`)
+                    ?.querySelectorAll('[data-state="open"]')
+                    .forEach(el => el.__closeDropdownSubMenu());
             },
             '@mouseleave'() {
                 if (this.$focus.focused() === el) {
@@ -359,6 +365,161 @@
             }))
         };
 
+        const handleSubRoot = (el, Alpine) => {
+            Alpine.bind(el, () => ({
+                'x-id'() {
+                    return [DROPDOWN_MENU_SUB_COMPONENT_ID];
+                },
+                'x-data'() {
+                    return {
+                        __subOpen: false,
+
+                        get __trigger() {
+                            return this.$refs.trigger;
+                        },
+
+                        __onSubOpenChange(newValue) {
+                            this.__subOpen = newValue;
+                        },
+
+                        init() {
+                            this.$el.removeAttribute('x-dropdown-menu:sub');
+
+                            this.$watch('__open', (newValue) => {
+                                if (!newValue) {
+                                    this.$nextTick(() => {
+                                        this.__subOpen = false;
+                                    });
+                                }
+                            });
+                        }
+                    };
+                },
+                'x-modelable': '__subOpen',
+            }));
+        };
+
+        const handleSubTrigger = (el, Alpine) => {
+            Alpine.bind(el, () => ({
+                ...menuItemCommonProps(el),
+                '@mouseenter'() {
+                    this.__onSubOpenChange(true);
+                    this.isFocused = true;
+                },
+                '@mouseleave'(event) {
+                    this.isFocused = false;
+                },
+                ':tabindex'() {
+                    return this.disabled ? undefined : '0';
+                },
+                ':id'() {
+                    return this.__makeTriggerId(this.$id(DROPDOWN_MENU_SUB_COMPONENT_ID));
+                },
+                ':aria-expanded'() {
+                    return this.__subOpen ? 'true' : 'false';
+                },
+                ':data-state'() {
+                    return this.__subOpen ? 'open' : 'closed';
+                },
+                ':aria-controls'() {
+                    return this.__subOpen 
+                        ? this.__makeContentId(this.$id(DROPDOWN_MENU_SUB_COMPONENT_ID))
+                        : undefined;
+                },
+                'x-ref': 'trigger',
+                'x-data'() {
+                    return {
+                        isFocused: false,
+
+                        init() {
+                            this.$el.removeAttribute('x-dropdown-menu:sub-trigger');
+
+                            this.$el.__closeDropdownSubMenu = () => {
+                                this.__onSubOpenChange(false);
+                            };
+                        },
+                    }
+                },
+            }));
+        };
+
+        const handleSubContent = (el, Alpine, { side, align, sideOffset }) => {
+            Alpine.bind(el, () => ({
+                'x-show'() {
+                    return this.__subOpen;
+                },
+                ':data-state'() {
+                    return this.__subOpen ? 'open' : 'closed';
+                },
+                ':data-side'() {
+                    return side;
+                },
+                ':data-align'() {
+                    return align;
+                },
+                ':id'() {
+                    return this.__makeContentId(this.$id(DROPDOWN_MENU_SUB_COMPONENT_ID));
+                },
+                ':aria-labelledby'() {
+                    return this.__makeTriggerId(this.$id(DROPDOWN_MENU_SUB_COMPONENT_ID));
+                },
+                'x-transition:enter': 'transition ease-in duration-150',
+                'x-transition:enter-start': 'opacity-0 scale-95 translate-y-2',
+                'x-transition:enter-end': 'opacity-100 scale-100 translate-y-0',
+                'x-transition:leave': 'transition ease duration-150',
+                'x-transition:leave-start': 'opacity-100 scale-100 translate-y-0',
+                'x-transition:leave-end': 'opacity-0 scale-95 translate-y-2',
+                'x-ref': 'content',
+                'x-anchorplus'() {
+                    return {
+                        reference: this.__trigger,
+                        placement: this.side + (this.align === 'center' ? '' : `-${this.align}`),
+                        sideOffset: this.sideOffset,
+                    };
+                },
+                '@keydown.down'() {
+                    if (this.__subOpen) {
+                        if (this.$focus.getNext()) this.$focus.next();
+                        else if (this.$focus.focused() === el) {
+                            this.$focus.first();
+                        }
+                    }
+                },
+                '@keydown.up'() {
+                    if (this.__subOpen) {
+                        if (this.$focus.getPrevious()) this.$focus.previous();
+                        else if (this.$focus.focused() === el) {
+                            this.$focus.last();
+                        }
+                    }
+                },
+                '@keydown.escape'() {
+                    if (this.__subOpen) {
+                        this.__onSubOpenChange(false);
+                        this.$focus.focus(this.__trigger);
+                    }
+                },
+                'x-data'() {
+                    return {
+                        side,
+                        align,
+                        sideOffset,
+
+                        init() {
+                            this.$el.removeAttribute('x-dropdown-menu:sub-content');
+                            this.$watch('__subOpen', (newValue) => {
+                                if (newValue) {
+                                    this.$nextTick(() => {
+                                        this.$focus.focus(this.$el);
+                                    });
+                                }
+                            });
+                        },
+                    };
+                }
+            }));
+        };
+
         Alpine.directive('dropdown-menu', (el, {value, expression}, {Alpine, evaluate}) => {
             const params = expression ? evaluate(expression) : {};
 
@@ -370,7 +531,10 @@
             else if (value === 'checkbox-item-indicator') handleCheckboxItemIndicator(el, Alpine);
             else if (value === 'radio-group') handleRadioGroup(el, Alpine, params);
             else if (value === 'radio-item') handleRadioItem(el, Alpine, params);
-            else if (value === 'radio-item-indicator') handleRadioGroupItemIndicator(el, Alpine);
+            else if (value === 'radio-item-indicator') handleRadioGroupItemIndicator(el, Alpine, params);
+            else if (value === 'sub') handleSubRoot(el, Alpine, params);
+            else if (value === 'sub-trigger') handleSubTrigger(el, Alpine, params);
+            else if (value === 'sub-content') handleSubContent(el, Alpine, params);
             else {
                 console.warn(`Unknown dropdown menu directive value: ${value}`);
             }

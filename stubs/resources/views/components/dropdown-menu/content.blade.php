@@ -1,8 +1,8 @@
 @props([
     'as' => 'div',
-    // Side of the tooltip content could be 'top', 'right', 'bottom', or 'left'
+    // Side of the dropdown menu content could be 'top', 'right', 'bottom', or 'left'
     'side' => 'top',
-    // Align the tooltip content to the side, could be 'start', 'center', or 'end'
+    // Align the dropdown menu content to the side, could be 'start', 'center', or 'end'
     'align' => 'center',
     'sideOffset' => 4,
 ])

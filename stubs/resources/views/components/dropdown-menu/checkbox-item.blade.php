@@ -9,7 +9,7 @@
         'as' => $as,
         'data-slot' => 'dropdown-menu-checkbox-item',
         'role' => 'menuitemcheckbox',
-        'x-dropdown-menu:checkbox-item' => '',
+        'x-dropdown-menu:checkbox-item' => Js::from(compact('disabled')),
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

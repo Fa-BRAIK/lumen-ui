@@ -256,6 +256,18 @@
                         this.__onOpenChange(false);
                     }
                 },
+                '@keydown.enter'() {
+                    if (! this.disabled) {
+                        this.__checked = !this.__checked;
+                        this.__onOpenChange(false);
+                    }
+                },
+                '@keydown.space'() {
+                    if (! this.disabled) {
+                        this.__checked = !this.__checked;
+                        this.__onOpenChange(false);
+                    }
+                },
                 'x-data'() {
                     return {
                         __checked: false,
@@ -327,6 +339,12 @@
                     }
                 },
                 '@keydown.enter'() {
+                    if (! this.disabled) {
+                        this.__onValueChange(this.value);
+                        this.__onOpenChange(false);
+                    }
+                },
+                '@keydown.space'() {
                     if (! this.disabled) {
                         this.__onValueChange(this.value);
                         this.__onOpenChange(false);

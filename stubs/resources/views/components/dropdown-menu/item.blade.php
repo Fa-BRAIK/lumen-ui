@@ -13,7 +13,6 @@
     ->merge([
         'as' => $as,
         'data-variant' => $variant,
-        'disabled' => $disabled,
         'data-slot' => 'dropdown-menu-item',
         'role' => 'menuitem',
         'tabindex' => '-1',

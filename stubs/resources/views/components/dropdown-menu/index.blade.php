@@ -188,24 +188,40 @@
             }));
         };
 
+        const menuItemCommonProps = (el) => ({
+            '@mouseenter'() {
+                this.$focus.focus(el);
+                this.isFocused = true;
+            },
+            '@mouseleave'() {
+                if (this.$focus.focused() === el) {
+                    el.blur();
+                    this.isFocused = false;
+                }
+            },
+            ':data-highlighted'() {
+                return this.isFocused ? '' : undefined;
+            },
+            ':data-disabled'() {
+                return this.disabled ? 'true' : undefined;
+            },
+            ':aria-disabled'() {
+                return this.disabled ? 'true' : undefined;
+            },
+            ':disabled'() {
+                return this.disabled ? 'disabled' : undefined;
+            },
+            ':tabindex'() {
+                return this.disabled ? undefined : '-1';
+            },
+        });
+
         const handleItem = (el, Alpine, { disabled }) => {
             Alpine.bind(el, () => ({
-                '@mouseenter'() {
-                    this.$focus.focus(el);
-                },
-                '@mouseleave'() {
-                    if (this.$focus.focused() === el) {
-                        el.blur();
-                    }
-                },
-                ':data-disabled'() {
-                    return this.disabled ? 'true' : undefined;
-                },
-                ':aria-disabled'() {
-                    return this.disabled ? 'true' : undefined;
-                },
+                ...menuItemCommonProps(el),
                 'x-data'() {
                     return {
+                        isFocused: false,
                         disabled,
 
                         init() {
@@ -216,6 +232,133 @@
             }));
         };
 
+        const handleCheckboxItem = (el, Alpine, { disabled }) => {
+            Alpine.bind(el, () => ({
+                ...menuItemCommonProps(el),
+                ':aria-checked'() {
+                    return this.__checked ? 'true' : 'false';
+                },
+                ':data-state'() {
+                    return this.__checked ? 'checked' : 'unchecked';
+                },
+                ':checked'() {
+                    return this.__checked ? 'true' : 'false';
+                },
+                '@click'() {
+                    if (! this.disabled) {
+                        this.__checked = !this.__checked;
+                        this.__onOpenChange(false);
+                    }
+                },
+                'x-data'() {
+                    return {
+                        __checked: false,
+                        isFocused: false,
+                        disabled,
+
+                        init() {
+                            this.$el.removeAttribute('x-dropdown-menu:checkbox-item');
+                        },
+                    };
+                },
+                'x-modelable': '__checked',
+            }));
+        };
+
+        const handleCheckboxItemIndicator = (el, Alpine) => {
+            Alpine.bind(el, () => ({
+                'x-show'() {
+                    return this.__checked;
+                },
+                ':data-state'() {
+                    return this.__checked ? 'checked' : 'unchecked';
+                },
+                'x-data': '',
+                'x-init'() {
+                    this.$el.removeAttribute('x-dropdown-menu:checkbox-item-indicator');
+                }
+            }))
+        };
+
+        const handleRadioGroup = (el, Alpine, { defaultValue, disabled }) => {
+            Alpine.bind(el, () => ({
+                'x-data'() {
+                    return {
+                        __value: defaultValue,
+                        defaultValue,
+                        disabled,
+
+                        __onValueChange(newValue) {
+                            if (this.disabled) return;
+
+                            this.__value = newValue;
+                        },
+
+                        init() {
+                            this.$el.removeAttribute('x-dropdown-menu:radio-group');
+                        }
+                    }
+                },
+                'x-modelable': '__value',
+            }));
+        };
+
+        const handleRadioItem = (el, Alpine, { value, disabled }) => {
+            Alpine.bind(el, () => ({
+                ...menuItemCommonProps(el),
+                ':aria-checked'() {
+                    return this.__value === this.value ? 'true' : 'false';
+                },
+                ':data-state'() {
+                    return this.__value === this.value ? 'checked' : 'unchecked';
+                },
+                ':data-value'() {
+                    return this.value;
+                },
+                '@click'() {
+                    if (! this.disabled) {
+                        this.__onValueChange(this.value);
+                    }
+                },
+                '@keydown.enter'() {
+                    if (! this.disabled) {
+                        this.__onValueChange(this.value);
+                        this.__onOpenChange(false);
+                    }
+                },
+                'x-data'() {
+                    return {
+                        value,
+                        disabled,
+                        isFocused: false,
+
+                        get __checked() {
+                            return this.__value === this.value;
+                        },
+
+                        init() {
+                            this.$el.removeAttribute('x-dropdown-menu:radio-item');
+                        }
+                    };
+                }
+            }));
+        };
+
+        const handleRadioGroupItemIndicator = (el, Alpine) => {
+            Alpine.bind(el, () => ({
+                'x-show'() {
+                    return this.__checked;
+                },
+                ':data-state'() {
+                    return this.__checked ? 'checked' : 'unchecked';
+                },
+                'x-data': '',
+                'x-init'() {
+                    this.$el.removeAttribute('x-dropdown-menu:radio-item-indicator');
+                }
+            }))
+        };
+
         Alpine.directive('dropdown-menu', (el, {value, expression}, {Alpine, evaluate}) => {
             const params = expression ? evaluate(expression) : {};
 
@@ -223,8 +366,13 @@
             else if (value === 'trigger') handleTrigger(el, Alpine, params);
             else if (value === 'content') handleContent(el, Alpine, params);
             else if (value === 'item') handleItem(el, Alpine, params);
+            else if (value === 'checkbox-item') handleCheckboxItem(el, Alpine, params);
+            else if (value === 'checkbox-item-indicator') handleCheckboxItemIndicator(el, Alpine);
+            else if (value === 'radio-group') handleRadioGroup(el, Alpine, params);
+            else if (value === 'radio-item') handleRadioItem(el, Alpine, params);
+            else if (value === 'radio-item-indicator') handleRadioGroupItemIndicator(el, Alpine);
             else {
-                console.warn(`Unknown tooltip directive value: ${value}`);
+                console.warn(`Unknown dropdown menu directive value: ${value}`);
             }
         });
     }, { once: true });

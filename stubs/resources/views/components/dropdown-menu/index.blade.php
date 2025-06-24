@@ -378,6 +378,10 @@
                             return this.$refs.trigger;
                         },
 
+                        get __content() {
+                            return this.$refs.content;
+                        },
+
                         __onSubOpenChange(newValue) {
                             this.__subOpen = newValue;
                         },
@@ -408,6 +412,21 @@
                 },
                 '@mouseleave'(event) {
                     this.isFocused = false;
+                },
+                '@keydown.right'() {
+                    if (! this.__subOpen) {
+                        this.__onSubOpenChange(true);
+
+                        const firstItem = this.__content.querySelector('[role="menuitem"]');
+
+                        if (firstItem) {
+                            this.$nextTick(() => {
+                                this.$nextTick(() => {
+                                    this.$focus.focus(firstItem);
+                                });
+                            });
+                        }
+                    }
                 },
                 ':tabindex'() {
                     return this.disabled ? undefined : '0';
@@ -494,6 +513,12 @@
                     }
                 },
                 '@keydown.escape'() {
+                    if (this.__subOpen) {
+                        this.__onSubOpenChange(false);
+                        this.$focus.focus(this.__trigger);
+                    }
+                },
+                '@keydown.left'() {
                     if (this.__subOpen) {
                         this.__onSubOpenChange(false);
                         this.$focus.focus(this.__trigger);

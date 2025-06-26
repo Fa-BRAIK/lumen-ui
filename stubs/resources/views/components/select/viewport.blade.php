@@ -10,6 +10,7 @@
         'role' => 'presentation',
         'data-lumen-select-viewport' => true,
         'style' => 'position: relative; flex: 1 1 0%; overflow: hidden auto;',
+        'x-select:viewport' => '',
     ]))
 
 <style>

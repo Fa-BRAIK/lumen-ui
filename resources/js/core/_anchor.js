@@ -61,8 +61,10 @@ export default function (Alpine) {
                             return;
                         }
 
+                        const space = sideOffset + calculateSize['additionalSpace'] || 0;
+
                         const varName = calculateSize['varName'] || '--anchor-height';
-                        elements.floating?.style.setProperty(varName, `${Math.max(availableHeight, Math.floor(window.innerHeight * 0.3)) - sideOffset}px`);
+                        elements.floating?.style.setProperty(varName, `${Math.max(availableHeight, Math.floor(window.innerHeight * 0.3)) - space}px`);
                     }
                 }),
                 shift({padding: 5}),

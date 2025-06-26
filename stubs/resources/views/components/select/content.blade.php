@@ -21,8 +21,10 @@
 
 <template x-teleport="body">
     <x-lumen::primitive :attributes="$attributes">
+        <x-lumen::select.scroll-up-button />
         <x-select.viewport>
             {{ $slot }}
         </x-select.viewport>
+        <x-lumen::select.scroll-down-button />
     </x-lumen::primitive>
 </template>

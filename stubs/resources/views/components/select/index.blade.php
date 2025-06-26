@@ -54,6 +54,10 @@
                             return this.$refs.content;
                         },
 
+                        get __viewport() {
+                            return this.$refs.viewport;
+                        },
+
                         __onValueChange(value) {
                             if (this.disabled) {
                                 return;
@@ -188,7 +192,8 @@
                         placement: this.side + (this.align === 'center' ? '' : `-${this.align}`),
                         sideOffset: this.sideOffset,
                         calculateSize: {
-                            varName: '--lumen-select-content-available-height'
+                            varName: '--lumen-select-content-available-height',
+                            additionalSpace: 10,
                         },
                     };
                 },
@@ -219,6 +224,9 @@
                         side,
                         align,
                         sideOffset,
+                        __scrollTop: 0,
+                        __clientHeight: 0,
+                        __scrollHeight: 0,
 
                         init() {
                             this.$el.removeAttribute('x-select:content');
@@ -228,15 +236,33 @@
                             });
 
                             this.$watch('__open', (newValue) => {
-                                if (newValue) {
-                                    this.$nextTick(() => {
-                                        this.$focus.focus(this.$el);
-                                    });
-                                }
+                                this.$nextTick(() => {
+                                    if (newValue)  this.$focus.focus(this.$el);
+
+                                    this.__scrollTop = this.__viewport.scrollTop;
+                                    this.__clientHeight = this.__viewport.clientHeight;
+                                    this.__scrollHeight = this.__viewport.scrollHeight;
+
+                                    console.log({
+                                        scrollTop: this.__scrollTop,
+                                        clientHeight: this.__clientHeight,
+                                        scrollHeight: this.__scrollHeight
+                                    })
+                                });
                             });
                         },
                     };
                 }
+            }));
+        };
+
+        const handleContentViewport = (el, Alpine) => {
+            Alpine.bind(el, () => ({
+                'x-ref': 'viewport',
+                'x-data': '',
+                'x-init'() {
+                    this.$el.removeAttribute('x-select:viewport');
+                },
             }));
         };
 
@@ -329,6 +355,80 @@
             }));
         };
 
+        const handleScrollDownButton = (el, Alpine) => {
+            Alpine.bind(el, () => ({
+                'x-show'() {
+                    return this.__scrollTop + this.__clientHeight < this.__scrollHeight;
+                },
+                'x-data'() {
+                    return {
+                        hovered: false,
+                        scrollInterval: undefined,
+
+                        init() {
+                            this.$el.removeAttribute('x-select:scroll-down-button');
+
+                            this.$watch('hovered', newValue => {
+                                this.$nextTick(() => {
+                                    if (newValue) {
+                                        this.scrollInterval = setInterval(() => {
+                                            this.__viewport.scrollTop += 4;
+                                            this.__scrollTop = this.__viewport.scrollTop;
+                                        }, 10);
+                                    } else {
+                                        clearInterval(this.scrollInterval);
+                                    }
+                                });
+                            });
+                        }
+                    };
+                },
+                '@mouseenter'() {
+                    this.hovered = true;
+                },
+                '@mouseleave'() {
+                    this.hovered = false;
+                },
+            }));
+        };
+
+        const handleScrollUpButton = (el, Alpine) => {
+            Alpine.bind(el, () => ({
+                'x-show'() {
+                    return this.__scrollTop !== 0;
+                },
+                'x-data'() {
+                    return {
+                        hovered: false,
+                        scrollInterval: undefined,
+
+                        init() {
+                            this.$el.removeAttribute('x-select:scroll-up-button');
+
+                            this.$watch('hovered', newValue => {
+                                this.$nextTick(() => {
+                                    if (newValue) {
+                                        this.scrollInterval = setInterval(() => {
+                                            this.__viewport.scrollTop -= 4;
+                                            this.__scrollTop = this.__viewport.scrollTop;
+                                        }, 10);
+                                    } else {
+                                        clearInterval(this.scrollInterval);
+                                    }
+                                });
+                            });
+                        }
+                    };
+                },
+                '@mouseenter'() {
+                    this.hovered = true;
+                },
+                '@mouseleave'() {
+                    this.hovered = false;
+                },
+            }));
+        };
+
         Alpine.directive('select', (el, {value, expression}, {Alpine, evaluate}) => {
             const params = expression ? evaluate(expression) : {};
 
@@ -339,6 +439,9 @@
             else if (value === 'item') handleItem(el, Alpine, params);
             else if (value === 'item-text') handleItemText(el, Alpine);
             else if (value === 'item-indicator') handleItemIndicator(el, Alpine);
+            else if (value === 'viewport') handleContentViewport(el, Alpine);
+            else if (value === 'scroll-down-button') handleScrollDownButton(el, Alpine);
+            else if (value === 'scroll-up-button') handleScrollUpButton(el, Alpine);
             else {
                 console.warn(`Unknown select directive value: ${value}`);
             }

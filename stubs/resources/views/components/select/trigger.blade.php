@@ -9,6 +9,7 @@
     ->merge([
         'as' => $as,
         'data-size' => $size,
+        'type' => 'button',
         'data-slot' => 'select-trigger',
         'role' => 'combobox',
         'x-select:trigger' => ''

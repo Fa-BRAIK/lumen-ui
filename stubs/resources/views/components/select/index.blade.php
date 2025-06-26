@@ -242,12 +242,6 @@
                                     this.__scrollTop = this.__viewport.scrollTop;
                                     this.__clientHeight = this.__viewport.clientHeight;
                                     this.__scrollHeight = this.__viewport.scrollHeight;
-
-                                    console.log({
-                                        scrollTop: this.__scrollTop,
-                                        clientHeight: this.__clientHeight,
-                                        scrollHeight: this.__scrollHeight
-                                    })
                                 });
                             });
                         },

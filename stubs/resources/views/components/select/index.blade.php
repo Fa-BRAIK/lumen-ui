@@ -72,6 +72,10 @@
                             }
                             
                             this.__open = open;
+                        
+                            this.$nextTick(() => {
+                                this.$focus.focus(this.__trigger);
+                            });
                         },
 
                         __makeTriggerId(baseId) {
@@ -93,6 +97,20 @@
                                 if (newValue) {
                                     document.body.setAttribute('data-scroll-locked', '1');
                                     document.body.style.pointerEvents = 'none';
+
+                                    const options = this.__content.querySelectorAll('[role="option"]');
+                                    const enabledOptions = Array.from(options).filter(option => !option.hasAttribute('data-disabled'));
+                                    const selectedItem = Array.from(enabledOptions).find(option => option.getAttribute('data-state') === 'selected');
+
+                                    this.$nextTick(() => {
+                                        this.$nextTick(() => {
+                                            if (selectedItem) {
+                                                this.$focus.focus(selectedItem);
+                                            } else if (enabledOptions.length > 0) {
+                                                this.$focus.focus(enabledOptions[0]);
+                                            }
+                                        });
+                                    });
                                 } else {
                                     document.body.removeAttribute('data-scroll-locked');
                                     document.body.style.pointerEvents = '';
@@ -127,9 +145,6 @@
                     return this.__value ? undefined : '';
                 },
                 '@click'() {
-                    this.__onOpenChange(!this.__open);
-                },
-                '@keydown.enter'() {
                     this.__onOpenChange(!this.__open);
                 },
                 '@keydown.space'() {
@@ -177,7 +192,7 @@
                     return this.__makeTriggerId(this.$id(SELECT_COMPONENT_ID));
                 },
                 ':tabindex'() {
-                    return this.disabled ? undefined : '-1';
+                    return this.disabled ? '-1' : '0';
                 },
                 'x-transition:enter': 'transition ease-in duration-100',
                 'x-transition:enter-start': 'opacity-0 -translate-y-2',
@@ -284,10 +299,7 @@
                     return this.disabled ? 'disabled' : undefined;
                 },
                 ':tabindex'() {
-                    return this.disabled ? undefined : '-1';
-                },
-                ':tabindex'() {
-                    return this.disabled ? undefined : '-1';
+                    return this.disabled ? '-1' : '0';
                 },
                 '@mouseenter'() {
                     this.$focus.focus(el);
@@ -298,6 +310,18 @@
                         el.blur();
                         this.isFocused = false;
                     }
+                },
+                '@keydown.enter'() {
+                    if (this.disabled) return;
+
+                    this.__onValueChange(this.value);
+                    this.__onOpenChange(false);
+                },
+                '@keydown.space.prevent'() {
+                    if (this.disabled) return;
+
+                    this.__onValueChange(this.value);
+                    this.__onOpenChange(false);
                 },
                 'x-data'() {
                     return {

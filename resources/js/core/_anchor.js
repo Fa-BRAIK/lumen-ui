@@ -1,4 +1,4 @@
-import { computePosition, autoUpdate, flip, offset, shift, arrow } from '@floating-ui/dom'
+import { computePosition, autoUpdate, flip, offset, shift, arrow, size } from '@floating-ui/dom'
 
 export default function (Alpine) {
     const getHiddenElementWidth = el => {
@@ -40,6 +40,7 @@ export default function (Alpine) {
             placement,
             sideOffset,
             noStyle: unstyled ,
+            calculateSize = undefined,
             arrowEl = undefined
         } = options
 
@@ -53,6 +54,17 @@ export default function (Alpine) {
 
             const middleware = [
                 flip(),
+                size({
+                    padding: sideOffset,
+                    apply: ({availableHeight, elements}) => {
+                        if (! calculateSize) {    
+                            return;
+                        }
+
+                        const varName = calculateSize['varName'] || '--anchor-height';
+                        elements.floating?.style.setProperty(varName, `${Math.max(availableHeight, Math.floor(window.innerHeight * 0.3)) - sideOffset}px`);
+                    }
+                }),
                 shift({padding: 5}),
                 offset(offsetValue),
             ]

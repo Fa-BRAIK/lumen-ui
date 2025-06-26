@@ -4,7 +4,6 @@
     'defaultOpen' => false,
     'dir' => 'ltr',
     'disabled' => false,
-    'placeholder' => '',
 ])
 
 @php($attributes = $attributes
@@ -165,7 +164,9 @@
                     };
                 },
                 'x-text'() {
-                    return this.__value || this.placeholder;
+                    return this.__value 
+                        ? this.__content.querySelector(`[data-value='${this.__value}']`)?.textContent ?? this.__value 
+                        : this.placeholder;
                 },
                 'x-slot': 'select-value',
             }));
@@ -282,6 +283,9 @@
                 },
                 ':aria-selected'() {
                     return this.selected ? 'true' : 'false';
+                },
+                ':data-value'() {
+                    return this.value;
                 },
                 ':aria-labelledby'() {
                     return this.__makeItemId(this.$id(SELECT_COMPONENT_ID), this.value);

@@ -15,6 +15,8 @@
         'x-hover-card:content' => Js::from(compact('side', 'align', 'sideOffset'))
     ]))
 
-<x-lumen::primitive :attributes="$attributes">
-    {{ $slot }}
-</x-lumen::primitive>
+<template x-teleport="body">
+    <x-lumen::primitive :attributes="$attributes">
+        {{ $slot }}
+    </x-lumen::primitive>
+</template>

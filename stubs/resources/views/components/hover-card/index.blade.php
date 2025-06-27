@@ -2,22 +2,20 @@
 
 @props([
     'as' => 'div',
-    'delayDuration' => 0,
-    'skipDelayDuration' => 0,
     'defaultOpen' => false,
+    'delayDuration' => 700,
+    'closeDelay' => 300,
 ])
 
 @php(throw_unless(
     is_numeric($delayDuration) && $delayDuration >= 0,
-    InvalidComponentException::invalidTooltipDelayDuration()
+    InvalidComponentException::invalidHoverCardDelayDuration()
 ))
 
 @php($attributes = $attributes
-    ->twMerge('')
     ->merge([
         'as' => $as,
-        'data-slot' => 'tooltip',
-        'x-tooltip' => Js::from(compact('delayDuration', 'skipDelayDuration', 'defaultOpen'))
+        'x-hover-card' => Js::from(compact('defaultOpen', 'delayDuration', 'closeDelay'))
     ]))
 
 <x-lumen::primitive :attributes="$attributes">
@@ -35,39 +33,23 @@
             },
         };
         
-        const handleRoot = (el, Alpine, { delayDuration, skipDelayDuration, defaultOpen }) => {
+        const handleRoot = (el, Alpine, { defaultOpen, delayDuration, closeDelay }) => {
             Alpine.bind(el, () => ({
-                '@keydown.escape.window'() {
-                    if (! this.__open) return;
-
-                    this.__onOpenChange(false, true);
-                },
-                '@keydown.space.window'(event) {
-                    if (! this.__open) return;
-
-                    event.preventDefault();
-
-                    this.__onOpenChange(false, true);
-                },
-                '@keydown.enter.window'() {
-                    if (! this.__open) return;
-
-                    this.__onOpenChange(false, true);
-                },
+                '@keydown.escape.window': '__onOpenChange(false, true)',
                 'x-data'() {
                     return {
                         __open: defaultOpen,
                         __timeouts: new Map(),
                         defaultOpen,
                         delayDuration,
-                        skipDelayDuration,
+                        closeDelay,
 
                         get __trigger() {
                             return this.$refs.trigger;
                         },
 
-                        get __arrow() {
-                            return this.$refs.arrow;
+                        get __content() {
+                            return this.$refs.content;
                         },
 
                         __onOpenChange(newValue, skipDelay = false) {
@@ -108,55 +90,38 @@
                         },
 
                         init() {
-                            this.$el.removeAttribute('x-tooltip');
-
-                            Alpine.bind(
-                                this.$el.querySelector('[data-slot="tooltip-arrow"]'),
-                                () => ({
-                                    'x-ref': 'arrow'
-                                })
-                            );
+                            this.$el.removeAttribute('x-hover-card');
                         },
 
                         destroy() {
                             this.__timeouts.forEach(timeoutId => clearTimeout(timeoutId));
                             this.__timeouts.clear();
                         }
-                    }
+                    };
                 },
                 'x-modelable': '__open',
             }));
         };
 
-        const handleTrigger = (el, Alpine, {}) => {
+        const handleTrigger = (el, Alpine) => {
             Alpine.bind(el, () => ({
                 ...stateProps,
-                '@mouseenter'() {
-                    this.__onOpenChange(true);
-                },
-                '@mouseleave'() {
-                    this.__onOpenChange(false);
-                },
+                '@mouseenter': '__onOpenChange(true)',
+                '@mouseleave': '__onOpenChange(false)',
                 'x-ref': 'trigger',
                 'x-data': '',
                 'x-init'() {
-                    this.$el.removeAttribute('x-tooltip:trigger');
+                    this.$el.removeAttribute('x-hover-card:trigger');
                 },
             }));
         };
 
-        const handleContent = (el, Alpine, { side, align, sideOffset, arrow }) => {
+        const handleContent = (el, Alpine, { side, align, sideOffset }) => {
             Alpine.bind(el, () => ({
                 ...stateProps,
-                ':data-side'() {
-                    return side;
-                },
-                ':data-align'() {
-                    return align;
-                },
-                'x-show'() {
-                    return this.__open;
-                },
+                ':data-side': 'side',
+                ':data-align': 'align',
+                'x-show': '__open',
                 'x-transition:enter': 'ease-in duration-300 transition-opacity',
                 'x-transition:enter-start': 'opacity-0',
                 'x-transition:enter-end': 'opacity-100',
@@ -168,7 +133,6 @@
                         reference: this.__trigger,
                         placement: this.side + (this.align === 'center' ? '' : `-${this.align}`),
                         sideOffset: this.sideOffset,
-                        arrowEl: this.arrow ? this.$refs.arrow : undefined
                     };
                 },
                 'x-data'() {
@@ -176,24 +140,23 @@
                         side,
                         align,
                         sideOffset,
-                        arrow,
 
                         init() {
-                            this.$el.removeAttribute('x-tooltip:content');
+                            this.$el.removeAttribute('x-hover-card:content');
                         }
                     };
-                },
+                }
             }));
         };
 
-        Alpine.directive('tooltip', (el, {value, expression}, {Alpine, evaluate}) => {
+        Alpine.directive('hover-card', (el, {value, expression}, {Alpine, evaluate}) => {
             const params = expression ? evaluate(expression) : {};
 
             if (! value) handleRoot(el, Alpine, params);
             else if (value === 'trigger') handleTrigger(el, Alpine, params);
             else if (value === 'content') handleContent(el, Alpine, params);
             else {
-                console.warn(`Unknown tooltip directive value: ${value}`);
+                console.warn(`Unknown hover-card directive value: ${value}`);
             }
         });
     }, { once: true });

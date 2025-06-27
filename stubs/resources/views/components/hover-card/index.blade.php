@@ -54,14 +54,22 @@
 
                         __onOpenChange(newValue, skipDelay = false) {
                             if (newValue && !skipDelay && this.delayDuration > 0) {
+                                this.__clearTimeout('close');
                                 this.__setTimeout('open', () => {
                                     this.__open = true;
                                 }, this.delayDuration);
                             } else if (newValue) {
                                 this.__clearTimeout('open');
+                                this.__clearTimeout('close');
                                 this.__open = true;
+                            } else if (!skipDelay && this.closeDelay > 0) {
+                                this.__clearTimeout('open');
+                                this.__setTimeout('close', () => {
+                                    this.__open = false;
+                                }, this.closeDelay);
                             } else {
                                 this.__clearTimeout('open');
+                                this.__clearTimeout('close');
                                 this.__open = false;
                             }
                         },

@@ -43,15 +43,6 @@
         
                         __onOpenChange(newValue) {
                             this.__open = newValue;
-
-                            if (this.__open) {
-                                this.__dialog?.showModal();
-                            } else {
-                                const duration = Array.from(this.__dialog?.classList || [])
-                                    .find(cls => cls.startsWith('duration-'))?.split('-')[1] || 0;
-
-                                setTimeout(() => this.__dialog?.close(), duration);
-                            }
                         },
 
                         __makeTitleId() {
@@ -68,6 +59,17 @@
         
                         init() {
                             this.$el.removeAttribute('x-alert-dialog');
+
+                            this.$watch('__open', newValue => {
+                                if (newValue) {
+                                    this.__dialog?.showModal();
+                                } else {
+                                    const duration = Array.from(this.__dialog?.classList || [])
+                                        .find(cls => cls.startsWith('duration-'))?.split('-')[1] || 0;
+
+                                    setTimeout(() => this.__dialog?.close(), duration);
+                                }
+                            });
                         }
                     };
                 },
@@ -152,27 +154,6 @@
             }));
         };
 
-        const handleAlertAction = (el, Alpine) => {
-            Alpine.bind(el, () => ({
-                'x-data'() {
-                    return {
-                        __closeCallback: undefined,
-
-                        init() {
-                            this.$el.removeAttribute('x-alert-dialog:action');
-                            this.__closeCallback = () => this.__onOpenChange(false);
-                            
-                            this.$el.addEventListener('click', this.__closeCallback);
-                        },
-
-                        destroy() {
-                            this.$el.removeEventListener('click', this.__closeCallback);
-                        }
-                    };
-                }
-            }));
-        };
-
         Alpine.directive('alert-dialog', (el, {value, expression}, {Alpine, evaluate}) => {
             const params = expression ? evaluate(expression) : {};
 
@@ -182,7 +163,6 @@
             else if (value === 'cancel') handleAlertCancel(el, Alpine);
             else if (value === 'title') handleAlertTitle(el, Alpine);
             else if (value === 'description') handleAlertDescription(el, Alpine);
-            else if (value === 'action') handleAlertAction(el, Alpine);
             else {
                 console.warn(`Unknown alert-dialog directive value: ${value}`);
             }

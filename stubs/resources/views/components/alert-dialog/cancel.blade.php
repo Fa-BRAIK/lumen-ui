@@ -1,7 +1,7 @@
 @props([
     'as' => 'button',
     'variant' => 'outline',
-    'size' => 'default',
+    'size' => 'base',
 ])
 
 @php($attributes = $attributes

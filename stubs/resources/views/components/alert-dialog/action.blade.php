@@ -1,7 +1,7 @@
 @props([
     'as' => 'button',
     'variant' => 'default',
-    'size' => 'default',
+    'size' => 'base',
 ])
 
 @php($attributes = $attributes
@@ -10,7 +10,6 @@
         'variant' => $variant,
         'size' => $size,
         'data-slot' => 'alert-dialog-action',
-        'x-alert-dialog:action' => '',
     ]))
 
 <x-lumen::button :attributes="$attributes">

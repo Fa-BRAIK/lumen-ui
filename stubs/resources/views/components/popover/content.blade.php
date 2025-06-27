@@ -8,11 +8,11 @@
 ])
 
 @php($attributes = $attributes
-    ->twMerge('bg-popover text-popover-foreground z-50 w-64 origin-(--lumen-hover-card-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden')
+    ->twMerge('bg-popover text-popover-foreground z-50 w-72 origin-(--lumen-popover-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden')
     ->merge([
         'as' => $as,
-        'data-slot' => 'hover-card-content',
-        'x-hover-card:content' => Js::from(compact('side', 'align', 'sideOffset'))
+        'data-slot' => 'popover-card-content',
+        'x-popover:content' => Js::from(compact('side', 'align', 'sideOffset'))
     ]))
 
 <template x-teleport="body">
@@ -20,3 +20,4 @@
         {{ $slot }}
     </x-lumen::primitive>
 </template>
+

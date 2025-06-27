@@ -5,6 +5,7 @@
     'defaultOpen' => false,
     'delayDuration' => 700,
     'closeDelay' => 300,
+    'dir' => 'ltr',
 ])
 
 @php(throw_unless(
@@ -15,7 +16,10 @@
 @php($attributes = $attributes
     ->merge([
         'as' => $as,
-        'x-hover-card' => Js::from(compact('defaultOpen', 'delayDuration', 'closeDelay'))
+        'x-hover-card' => Js::from(compact('defaultOpen', 'delayDuration', 'closeDelay')),
+        'style' => Arr::toCssStyles([
+            '--lumen-hover-card-content-transform-origin: ' . ($dir === 'rtl' ? 'right' : 'left'),
+        ])
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

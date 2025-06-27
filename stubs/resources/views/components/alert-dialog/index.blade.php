@@ -47,7 +47,10 @@
                             if (this.__open) {
                                 this.__dialog?.showModal();
                             } else {
-                                this.__dialog?.close();
+                                const duration = Array.from(this.__dialog?.classList || [])
+                                    .find(cls => cls.startsWith('duration-'))?.split('-')[1] || 0;
+
+                                setTimeout(() => this.__dialog?.close(), duration);
                             }
                         },
 
@@ -150,18 +153,20 @@
         };
 
         const handleAlertAction = (el, Alpine) => {
-            const closeDialog = () => this.__onOpenChange(false);
-            
             Alpine.bind(el, () => ({
                 'x-data'() {
                     return {
+                        __closeCallback: undefined,
+
                         init() {
                             this.$el.removeAttribute('x-alert-dialog:action');
-                            this.$el.addEventListener('click', closeDialog);
+                            this.__closeCallback = () => this.__onOpenChange(false);
+                            
+                            this.$el.addEventListener('click', this.__closeCallback);
                         },
 
                         destroy() {
-                            this.$el.removeEventListener('click', closeDialog);
+                            this.$el.removeEventListener('click', this.__closeCallback);
                         }
                     };
                 }

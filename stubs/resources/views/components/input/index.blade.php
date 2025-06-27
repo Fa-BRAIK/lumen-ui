@@ -1,6 +1,7 @@
 @props([
     'as' => 'input',
     'type' => 'text',
+    'defaultValue' => null,
 ])
 
 @php($attributes = $attributes
@@ -13,6 +14,7 @@
         'as' => $as,
         'type' => $type,
         'data-slot' => 'input',
+        'value' => $defaultValue,
     ]))
 
 <x-lumen::primitive :attributes="$attributes" />

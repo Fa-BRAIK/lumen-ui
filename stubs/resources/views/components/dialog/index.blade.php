@@ -1,13 +1,14 @@
 @props([
     'as' => 'div',
     'defaultOpen' => false,
+    'modal' => true,
 ])
 
 @php($attributes = $attributes
     ->merge([
         'as' => $as,
-        'data-slot' => 'alert-dialog-container',
-        'x-alert-dialog' => '',
+        'data-slot' => 'dialog-container',
+        'x-dialog' => Js::from(compact('defaultOpen', 'modal')),
     ]))
 
 <x-lumen::primitive :attributes="$attributes">
@@ -17,7 +18,7 @@
 @pushLumenScriptsOnce
 <script type="text/javascript" data-navigate-once="true">
     document.addEventListener(typeof Alpine === 'undefined' ? 'alpine:init' : 'livewire:navigated', () => {
-        const ALERT_DIALOG_COMPONENT_ID = 'alert-dialog';
+        const DIALOG_COMPONENT_ID = 'dialog';
 
         const stateProps = {
             ':data-state'() {
@@ -25,12 +26,13 @@
             }
         };
 
-        const handleRoot = (el, Alpine, { defaultOpen }) => {
+        const handleRoot = (el, Alpine, { defaultOpen, modal }) => {
             Alpine.bind(el, () => ({
                 ...stateProps,
                 'x-data'() {
                     return {
                         __open: defaultOpen,
+                        __modal: modal,
                         defaultOpen,
                         
                         get __dialog() {
@@ -46,15 +48,15 @@
                         },
 
                         __makeTitleId() {
-                            return this.$id(ALERT_DIALOG_COMPONENT_ID + '-title');
+                            return this.$id(DIALOG_COMPONENT_ID + '-title');
                         },
 
                         __makeDescriptionId() {
-                            return this.$id(ALERT_DIALOG_COMPONENT_ID + '-description');
+                            return this.$id(DIALOG_COMPONENT_ID + '-description');
                         },
         
                         init() {
-                            this.$el.removeAttribute('x-alert-dialog');
+                            this.$el.removeAttribute('x-dialog');
 
                             this.$watch('__open', newValue => {
                                 if (newValue) {
@@ -70,7 +72,7 @@
                     };
                 },
                 'x-id'() {
-                    return [ALERT_DIALOG_COMPONENT_ID];
+                    return [DIALOG_COMPONENT_ID];
                 },
                 'x-modelable': '__open'
             }));
@@ -80,10 +82,29 @@
             Alpine.bind(el, () => ({
                 ...stateProps,
                 ':id'() {
-                    return this.$id(ALERT_DIALOG_COMPONENT_ID + '-dialog');
+                    return this.$id(DIALOG_COMPONENT_ID + '-dialog');
                 },
                 '@keydown.escape.window'() {
                     if (this.__open) this.__onOpenChange(false);
+                },
+                '@click'() {
+                    const rect = this.__dialog?.getBoundingClientRect();
+
+                    if (!rect) return;
+
+                    const clientX = 'clientX' in event ? event.clientX : event.touches[0]?.clientX;
+                    const clientY = 'clientY' in event ? event.clientY : event.touches[0]?.clientY;
+
+                    const top = rect.top;
+                    const right = rect.right;
+                    const bottom = rect.bottom;
+                    const left = rect.left;
+        
+                    if (rect.left > clientX || clientX > rect.right || rect.top > clientY || clientY > rect.bottom) {
+                        if (! this.__modal) return;
+
+                        this.__onOpenChange(false);
+                    }
                 },
                 'x-ref': 'dialog',
                 'x-show': '__open',
@@ -95,72 +116,73 @@
                 'x-transition:leave-end': 'opacity-0 scale-90 backdrop:opacity-0',
                 'x-data': '',
                 'x-init'() {
-                    this.$el.removeAttribute('x-alert-dialog:content');
+                    this.$el.removeAttribute('x-dialog:content');
                 }
             }));
         };
 
-        const handleAlertTrigger = (el, Alpine) => {
+        const handleTrigger = (el, Alpine) => {
             Alpine.bind(el, () => ({
                 ...stateProps,
                 ':id'() {
-                    return this.$id(ALERT_DIALOG_COMPONENT_ID + '-trigger');
+                    return this.$id(DIALOG_COMPONENT_ID + '-trigger');
                 },
                 '@click': '__onOpenChange(true)',
                 'x-ref': 'trigger',
                 'x-data': '',
                 'x-init'() {
-                    this.$el.removeAttribute('x-alert-dialog:trigger');
+                    this.$el.removeAttribute('x-dialog:trigger');
                 }
             }));
         };
 
-        const handleAlertCancel = (el, Alpine) => {
+        const handleClose = (el, Alpine) => {
             Alpine.bind(el, () => ({
                 ':id'() {
-                    return this.$id(ALERT_DIALOG_COMPONENT_ID + '-cancel');
+                    return this.$id(DIALOG_COMPONENT_ID + '-close');
                 },
                 '@click': '__onOpenChange(false)',
                 'x-data': '',
                 'x-init'() {
-                    this.$el.removeAttribute('x-alert-dialog:cancel');
+                    this.$el.removeAttribute('x-dialog:close');
                 }
             }));
         };
 
-        const handleAlertTitle = (el, Alpine) => {
+        const handleTitle = (el, Alpine) => {
             Alpine.bind(el, () => ({
                 ':id': '__makeTitleId()',
                 'x-data': '',
                 'x-init'() {
-                    this.$el.removeAttribute('x-alert-dialog:title');
+                    this.$el.removeAttribute('x-dialog:title');
                     this.$el.closest('dialog')?.setAttribute('aria-labelledby', this.__makeTitleId());
                 }
             }));
         };
 
-        const handleAlertDescription = (el, Alpine) => {
+        const handleDescription = (el, Alpine) => {
             Alpine.bind(el, () => ({
                 ':id': '__makeDescriptionId()',
                 'x-data': '',
                 'x-init'() {
-                    this.$el.removeAttribute('x-alert-dialog:description');
+                    this.$el.removeAttribute('x-dialog:description');
                     this.$el.closest('dialog')?.setAttribute('aria-describedby', this.__makeDescriptionId());
                 }
             }));
         };
 
-        Alpine.directive('alert-dialog', (el, {value, expression}, {Alpine, evaluate}) => {
+
+        Alpine.directive('dialog', (el, {value, expression}, {Alpine, evaluate}) => {
             const params = expression ? evaluate(expression) : {};
 
             if (! value) handleRoot(el, Alpine, params);
             else if (value === 'content') handleContent(el, Alpine);
-            else if (value === 'trigger') handleAlertTrigger(el, Alpine);
-            else if (value === 'cancel') handleAlertCancel(el, Alpine);
-            else if (value === 'title') handleAlertTitle(el, Alpine);
-            else if (value === 'description') handleAlertDescription(el, Alpine);
+            else if (value === 'trigger') handleTrigger(el, Alpine);
+            else if (value === 'title') handleTitle(el, Alpine);
+            else if (value === 'description') handleDescription(el, Alpine);
+            else if (value === 'close') handleClose(el, Alpine);
             else {
-                console.warn(`Unknown alert-dialog directive value: ${value}`);
+                console.warn(`Unknown dialog directive value: ${value}`);
             }
         });
     }, { once: true });

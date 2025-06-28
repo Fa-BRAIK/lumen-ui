@@ -23,6 +23,10 @@
   }
 }
 
+@utility inset-block-start-auto {
+  inset-block-start: auto;
+}
+
 @theme {
   --radius-default: 0.3rem;
   --color-background: oklch(1 0 0);

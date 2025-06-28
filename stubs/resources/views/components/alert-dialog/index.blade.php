@@ -82,9 +82,6 @@
                 ':id'() {
                     return this.$id(ALERT_DIALOG_COMPONENT_ID + '-dialog');
                 },
-                '@keydown.escape.window'() {
-                    if (this.__open) this.__onOpenChange(false);
-                },
                 'x-ref': 'dialog',
                 'x-show': '__open',
                 'x-transition:enter': 'transition backdrop:transition ease-out duration-200',

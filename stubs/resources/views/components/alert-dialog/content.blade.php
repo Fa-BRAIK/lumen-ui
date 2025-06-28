@@ -8,6 +8,7 @@
         'as' => $as,
         'x-alert-dialog:content' => '',
         'data-slot' => 'alert-dialog',
+        'closedby' => 'none'
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

@@ -8,6 +8,7 @@
     ->merge([
         'as' => $as,
         'x-dialog:content' => '',
+        'closedby' => 'none',
         'data-slot' => 'dialog',
     ]))
 

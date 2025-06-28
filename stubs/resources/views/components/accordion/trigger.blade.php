@@ -1,5 +1,6 @@
 @props([
     'as' => 'button',
+    'type' => 'button',
 ])
 
 @php($attributes = $attributes

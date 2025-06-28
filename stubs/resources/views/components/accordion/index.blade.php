@@ -46,9 +46,7 @@
 <script type="text/javascript" data-navigate-once="true">
     document.addEventListener(typeof Alpine === 'undefined' ? 'alpine:init' : 'livewire:navigated', () => {
         const commonItemProps = {
-            ':data-state'() {
-                return this.selected ? 'open' : 'closed';
-            },
+            ':data-state': 'selected ? "open" : "closed"',
             ':data-disabled': 'disabled || __disabled',
         };
 

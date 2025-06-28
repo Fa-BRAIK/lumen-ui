@@ -16,6 +16,8 @@ class InvalidComponentException extends RuntimeException
 
     protected const int INVALID_TOOLTIP_DELAY_DURATION = 40000;
     protected const int INVALID_HOVER_CARD_DELAY_DURATION = 50000;
+    protected const int INVALID_ACCORDION_TYPE = 60000;
+    protected const int INVALID_ACCORDION_DEFAULT_VALUE_RELATIVE_TO_TYPE = 60001;
 
     public static function invalidPrimitiveTag(): self
     {
@@ -54,6 +56,22 @@ class InvalidComponentException extends RuntimeException
         return new self(
             message: 'Invalid hover card delay duration provided.',
             code: self::INVALID_HOVER_CARD_DELAY_DURATION
+        );
+    }
+
+    public static function invalidAccordionType(): self
+    {
+        return new self(
+            message: 'Invalid accordion type provided.',
+            code: self::INVALID_ACCORDION_TYPE
+        );
+    }
+
+    public static function invalidAccordionDefaultValueRelativeToType(): self
+    {
+        return new self(
+            message: 'Invalid accordion default value relative to type provided.',
+            code: self::INVALID_ACCORDION_DEFAULT_VALUE_RELATIVE_TO_TYPE
         );
     }
 }

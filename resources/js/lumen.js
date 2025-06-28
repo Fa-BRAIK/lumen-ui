@@ -1,4 +1,5 @@
 import focus from '@alpinejs/focus'
+import collapse from '@alpinejs/collapse'
 import anchor from './core/_anchor'
 
 /**
@@ -7,4 +8,5 @@ import anchor from './core/_anchor'
 export default function (Alpine) {
     Alpine.plugin(focus)
     Alpine.plugin(anchor)
+    Alpine.plugin(collapse)
 }

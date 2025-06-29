@@ -18,6 +18,7 @@ class InvalidComponentException extends RuntimeException
     protected const int INVALID_HOVER_CARD_DELAY_DURATION = 50000;
     protected const int INVALID_ACCORDION_TYPE = 60000;
     protected const int INVALID_ACCORDION_DEFAULT_VALUE_RELATIVE_TO_TYPE = 60001;
+    protected const int INVALID_CAROUSEL_ORIENTATION_OPTION = 70000;
 
     public static function invalidPrimitiveTag(): self
     {
@@ -72,6 +73,14 @@ class InvalidComponentException extends RuntimeException
         return new self(
             message: 'Invalid accordion default value relative to type provided.',
             code: self::INVALID_ACCORDION_DEFAULT_VALUE_RELATIVE_TO_TYPE
+        );
+    }
+
+    public static function invalidCarouselOrientationOption(string $message = 'Invalid carousel orientation option provided.'): self
+    {
+        return new self(
+            message: $message,
+            code: self::INVALID_CAROUSEL_ORIENTATION_OPTION
         );
     }
 }

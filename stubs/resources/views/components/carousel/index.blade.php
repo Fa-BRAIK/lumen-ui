@@ -83,6 +83,10 @@
                                 this.__emblaApi.on('select', () => this.__updateCanScroll());
                                 this.__emblaApi.on('init', () => this.__updateCanScroll());
                             });
+                        },
+
+                        destroy() {
+                            this.__emblaApi?.destroy();
                         }
                     }
                 }

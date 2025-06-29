@@ -3,6 +3,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
+  @import "vanilla-calendar-pro/styles/layout.css";
+
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
@@ -10,7 +12,7 @@
 
   * {
     border-color: var(--color-border);
-    outline-color: color-mix(in oklab, var(--color-ring) 50%, transparent)
+    outline-color: color-mix(in oklab, var(--color-ring) 50%, transparent);
   }
 
   body[data-scroll-locked="1"] {
@@ -99,4 +101,6 @@
   }
 }
 
-[x-cloak] { display: none !important; }
+[x-cloak] {
+    display: none !important;
+}

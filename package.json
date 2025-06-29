@@ -3,6 +3,7 @@
     "@alpinejs/collapse": "^3.14.9",
     "@alpinejs/focus": "^3.14.9",
     "@floating-ui/dom": "^1.7.1",
-    "embla-carousel": "^8.6.0"
+    "embla-carousel": "^8.6.0",
+    "vanilla-calendar-pro": "^3.0.4"
   }
 }

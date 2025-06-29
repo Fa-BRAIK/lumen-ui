@@ -4,7 +4,6 @@
 ])
 
 @php($attributes = $attributes
-    ->twMerge('rounded-md border shadow-sm')
     ->merge([
         'as' => $as,
         'data-slot' => 'calendar',

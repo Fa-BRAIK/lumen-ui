@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Nuxtifyts\Lumen;
+namespace Lumen;
 
-use Nuxtifyts\Lumen\Support\Assets\Manager;
-use Nuxtifyts\Lumen\Support\Blade\Components;
-use Nuxtifyts\Lumen\Support\Blade\Directives;
-use Nuxtifyts\Lumen\Support\ClassBuilder;
+use Lumen\Support\Assets\Manager;
+use Lumen\Support\Blade\Components;
+use Lumen\Support\Blade\Directives;
+use Lumen\Support\ClassBuilder;
 
 class Lumen
 {

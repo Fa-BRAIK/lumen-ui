@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nuxtifyts\Lumen\Support\Blade;
+namespace Lumen\Support\Blade;
 
 use Illuminate\Support\Facades\Blade;
 

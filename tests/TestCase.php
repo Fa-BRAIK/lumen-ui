@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Nuxtifyts\Lumen\Tests;
+namespace Lumen\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Nuxtifyts\Lumen\LumenServiceProvider;
+use Lumen\LumenServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra

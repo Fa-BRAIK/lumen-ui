@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nuxtifyts\Lumen\Support\ClassVarianceAuthorityConfig;
+namespace Lumen\Support\ClassVarianceAuthorityConfig;
 
 use Illuminate\Support\Collection;
 use InvalidArgumentException;

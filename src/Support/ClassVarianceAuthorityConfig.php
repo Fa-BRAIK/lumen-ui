@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Nuxtifyts\Lumen\Support;
+namespace Lumen\Support;
 
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
-use Nuxtifyts\Lumen\Support\ClassVarianceAuthorityConfig\CompoundVariant;
-use Nuxtifyts\Lumen\Support\ClassVarianceAuthorityConfig\VariantConfig;
-use Nuxtifyts\Lumen\Support\ClassVarianceAuthorityConfig\VariantConfigGroup;
+use Lumen\Support\ClassVarianceAuthorityConfig\CompoundVariant;
+use Lumen\Support\ClassVarianceAuthorityConfig\VariantConfig;
+use Lumen\Support\ClassVarianceAuthorityConfig\VariantConfigGroup;
 
 final readonly class ClassVarianceAuthorityConfig
 {

@@ -1,8 +1,8 @@
 {
-    "name": "nuxtifyts/lumen-ui",
-    "description": "Lumen UI is a tall stack components library inspired from shadcn/ui",
+    "name": "lumen/lumen-ui",
+    "description": "Lumen UI is a TALL stack components library inspired from shadcn/ui",
     "keywords": [
-        "Nuxtifyts",
+        "Lumen",
         "laravel",
         "lumen-ui"
     ],
@@ -37,13 +37,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Nuxtifyts\\Lumen\\": "src/",
-            "Nuxtifyts\\Lumen\\Database\\Factories\\": "database/factories/"
+            "Lumen\\": "src/",
+            "Lumen\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Nuxtifyts\\Lumen\\Tests\\": "tests/",
+            "Lumen\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -71,10 +71,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Nuxtifyts\\Lumen\\LumenServiceProvider"
+                "Lumen\\LumenServiceProvider"
             ],
             "aliases": {
-                "Lumen": "Nuxtifyts\\Lumen\\Facades\\Lumen"
+                "Lumen": "Lumen\\Facades\\Lumen"
             }
         }
     },

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nuxtifyts\Lumen\Support\Blade\Components\Exceptions;
+namespace Lumen\Support\Blade\Components\Exceptions;
 
 use RuntimeException;
 

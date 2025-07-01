@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Nuxtifyts\Lumen\Facades;
+namespace Lumen\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method \Nuxtifyts\Lumen\Support\Blade\Directives directives()
- * @method \Nuxtifyts\Lumen\Support\Blade\Components components()
- * @method \Nuxtifyts\Lumen\Support\ClassBuilder classes(array<array-key, mixed> $classes = [])
- * @method \Nuxtifyts\Lumen\Support\Assets\Manager assets()
+ * @method \Lumen\Support\Blade\Directives directives()
+ * @method \Lumen\Support\Blade\Components components()
+ * @method \Lumen\Support\ClassBuilder classes(array<array-key, mixed> $classes = [])
+ * @method \Lumen\Support\Assets\Manager assets()
  *
- * @see \Nuxtifyts\Lumen\Lumen
+ * @see \Lumen\Lumen
  */
 class Lumen extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \Nuxtifyts\Lumen\Lumen::class;
+        return \Lumen\Lumen::class;
     }
 }

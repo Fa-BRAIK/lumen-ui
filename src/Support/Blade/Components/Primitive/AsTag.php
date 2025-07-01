@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nuxtifyts\Lumen\Support\Blade\Components\Primitive;
+namespace Lumen\Support\Blade\Components\Primitive;
 
 /**
  * @note Generated using Github Copilot

@@ -52,7 +52,7 @@ php artisan vendor:publish --tag="lumen-ui-views"
 ## Usage
 
 ```php
-$lumen = new Nuxtifyts\Lumen();
+$lumen = new Lumen();
 echo $lumen->echoPhrase('Hello, Nuxtifyts!');
 ```
 
@@ -76,8 +76,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Fa-BRAIK](https://github.com/Fa-BRAIK)
-- [All Contributors](../../contributors)
+-   [Fa-BRAIK](https://github.com/Fa-BRAIK)
+-   [All Contributors](../../contributors)
 
 ## License
 

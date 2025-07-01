@@ -1,4 +1,4 @@
-@use('Nuxtifyts\Lumen\Support\Blade\Components\Exceptions\InvalidComponentException')
+@use('Lumen\Support\Blade\Components\Exceptions\InvalidComponentException')
 
 @props([
     'as' => 'div',

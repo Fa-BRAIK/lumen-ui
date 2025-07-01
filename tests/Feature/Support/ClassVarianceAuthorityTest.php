@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Nuxtifyts\Lumen\Support\ClassVarianceAuthority;
+use Lumen\Support\ClassVarianceAuthority;
 
 covers(ClassVarianceAuthority::class);
 

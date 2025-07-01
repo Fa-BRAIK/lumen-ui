@@ -1,5 +1,5 @@
-@use('Nuxtifyts\Lumen\Support\Blade\Components\Primitive\AsTag')
-@use('Nuxtifyts\Lumen\Support\Blade\Components\Exceptions\InvalidComponentException')
+@use('Lumen\Support\Blade\Components\Primitive\AsTag')
+@use('Lumen\Support\Blade\Components\Exceptions\InvalidComponentException')
 
 @props([
     'as' => AsTag::Div,

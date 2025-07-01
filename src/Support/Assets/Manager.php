@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Nuxtifyts\Lumen\Support\Assets;
+namespace Lumen\Support\Assets;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
-use Nuxtifyts\Lumen\Http\Controllers\LumenScriptsController;
+use Lumen\Http\Controllers\LumenScriptsController;
 
 class Manager
 {

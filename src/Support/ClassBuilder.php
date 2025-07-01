@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nuxtifyts\Lumen\Support;
+namespace Lumen\Support;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;

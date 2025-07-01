@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Nuxtifyts\Lumen\Support\ClassBuilder;
+use Lumen\Support\ClassBuilder;
 
 covers(ClassBuilder::class);
 

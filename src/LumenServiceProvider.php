@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Nuxtifyts\Lumen;
+namespace Lumen;
 
-use Nuxtifyts\Lumen\Support\Concerns\HasLumenSupport;
+use Lumen\Support\Concerns\HasLumenSupport;
 use Override;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;

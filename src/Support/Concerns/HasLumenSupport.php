@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Nuxtifyts\Lumen\Support\Concerns;
+namespace Lumen\Support\Concerns;
 
-use Nuxtifyts\Lumen\Lumen;
-use Nuxtifyts\Lumen\Support\Assets\Manager;
-use Nuxtifyts\Lumen\Support\Blade\Components;
-use Nuxtifyts\Lumen\Support\Blade\Directives;
+use Lumen\Lumen;
+use Lumen\Support\Assets\Manager;
+use Lumen\Support\Blade\Components;
+use Lumen\Support\Blade\Directives;
 
 trait HasLumenSupport
 {

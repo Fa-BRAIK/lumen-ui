@@ -1,4 +1,4 @@
-@use('Nuxtifyts\Lumen\Support\ClassVarianceAuthority')
+@use('Lumen\Support\ClassVarianceAuthority')
 
 @props([
     'as' => 'div',

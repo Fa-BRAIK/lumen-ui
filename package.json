@@ -5,5 +5,11 @@
     "@floating-ui/dom": "^1.7.1",
     "embla-carousel": "^8.6.0",
     "vanilla-calendar-pro": "^3.0.4"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0"
+  },
+  "scripts": {
+    "build": "vite build"
   }
 }

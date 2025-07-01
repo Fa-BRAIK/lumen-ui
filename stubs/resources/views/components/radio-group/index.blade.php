@@ -158,7 +158,7 @@
             else {
                 console.warn(`Unknown radio group directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

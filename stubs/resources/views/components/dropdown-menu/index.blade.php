@@ -581,7 +581,7 @@
             else {
                 console.warn(`Unknown dropdown menu directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

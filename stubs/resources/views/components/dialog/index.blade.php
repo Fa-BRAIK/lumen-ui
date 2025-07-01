@@ -184,7 +184,7 @@
             else {
                 console.warn(`Unknown dialog directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

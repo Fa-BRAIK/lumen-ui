@@ -467,7 +467,7 @@
             else {
                 console.warn(`Unknown select directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

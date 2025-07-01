@@ -175,7 +175,7 @@
             else {
                 console.warn(`Unknown toggle group directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

@@ -135,7 +135,7 @@
             else {
                 console.warn(`Unknown carousel directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

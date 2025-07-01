@@ -195,7 +195,7 @@
             else {
                 console.warn(`Unknown tooltip directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

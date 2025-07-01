@@ -159,7 +159,7 @@
             else {
                 console.warn(`Unknown calendar directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

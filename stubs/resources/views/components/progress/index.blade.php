@@ -83,7 +83,7 @@
             else {
                 console.warn(`Unknown progress directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

@@ -436,7 +436,7 @@
             else {
                 console.warn(`Unknown slider directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

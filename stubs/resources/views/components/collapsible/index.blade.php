@@ -76,7 +76,7 @@
             else {
                 console.warn(`Unknown collapsible directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

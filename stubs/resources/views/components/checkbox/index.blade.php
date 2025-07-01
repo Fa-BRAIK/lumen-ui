@@ -74,7 +74,7 @@
             else {
                 console.warn(`Unknown checkbox directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

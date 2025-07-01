@@ -170,7 +170,7 @@
             else {
                 console.warn(`Unknown hover-card directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

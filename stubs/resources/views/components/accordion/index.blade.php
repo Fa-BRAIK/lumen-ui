@@ -187,7 +187,7 @@
             else {
                 console.warn(`Unknown accordion directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

@@ -86,7 +86,7 @@
             else {
                 console.warn(`Unknown avatar directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

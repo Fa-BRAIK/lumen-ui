@@ -116,7 +116,7 @@
             else {
                 console.warn(`Unknown popover directive value: ${value}`);
             }
-        });
+        }).before('bind');
     }, { once: true });
 </script>
 @endPushLumenScriptsOnce

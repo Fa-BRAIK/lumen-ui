@@ -17,13 +17,9 @@ class Directives
             $stackName = config('lumen.blade.stacks.scripts');
             $compiledStack = Blade::compileString("@stack('{$stackName}')");
 
-            $compiledLumenMainScript = Blade::compileString(
-                "app('lumen.assets')->prepareMainScript()"
-            );
-
             return <<<PHP
                 {$compiledStack}
-                {$compiledLumenMainScript}
+                <?= app('lumen.assets')->prepareMainScript() ?>
                 <?php app('livewire')->forceAssetInjection(); ?>
             PHP;
         });

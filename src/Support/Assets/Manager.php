@@ -20,10 +20,10 @@ class Manager
     {
         $manifestPath = __DIR__ . '/../../../dist/.vite/manifest.json';
         $manifest = json_decode(File::get($manifestPath), true);
-        
+
         $entryPoint = Arr::first(
             $manifest,
-            static fn (array $entryData) => Arr::string($entryData, 'name') === 'lumen'
+            static fn (array $entryData) => 'lumen' === Arr::string($entryData, 'name')
         );
 
         $fileNameExploded = explode('.', Arr::string($entryPoint, 'file'));
@@ -31,7 +31,7 @@ class Manager
 
         $src = route('lumen.scripts.get', ['name' => 'lumen', 'id' => $hash]);
 
-        return "<script src=\"$src\" data-navigate-once></script>";
+        return "<script src=\"{$src}\" data-navigate-once></script>";
     }
 
     protected function registerRoutes(): void

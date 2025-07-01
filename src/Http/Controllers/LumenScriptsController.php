@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace Nuxtifyts\Lumen\Http\Controllers;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Http\Request;
-use InvalidArgumentException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
+use Symfony\Component\HttpFoundation\Response;
 
 readonly class LumenScriptsController extends Controller
 {
     protected const string CACHE_CONTROL = 'public, max-age=31536000';
+
     protected const string NONCE_SECRET = 'xen0l3g1c';
 
     protected const string EXPIRES = '+1 year';

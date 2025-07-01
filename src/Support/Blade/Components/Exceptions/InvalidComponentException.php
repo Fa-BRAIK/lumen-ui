@@ -17,8 +17,11 @@ class InvalidComponentException extends RuntimeException
     protected const int INVALID_TOOLTIP_DELAY_DURATION = 40000;
 
     protected const int INVALID_HOVER_CARD_DELAY_DURATION = 50000;
+
     protected const int INVALID_ACCORDION_TYPE = 60000;
+
     protected const int INVALID_ACCORDION_DEFAULT_VALUE_RELATIVE_TO_TYPE = 60001;
+
     protected const int INVALID_CAROUSEL_ORIENTATION_OPTION = 70000;
 
     public static function invalidPrimitiveTag(): self

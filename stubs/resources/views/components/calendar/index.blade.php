@@ -14,7 +14,7 @@
                     ...$settings['styles'] ?? [],
                     'calendar' => twMerge(
                         $settings['styles']['calendar'] ?? '',
-                        'group:calendar p-3 gap-4 bg-background',
+                        'group:calendar p-3 gap-4',
                         $attributes->get('class'),
                     ),
                     'controls' => twMerge(

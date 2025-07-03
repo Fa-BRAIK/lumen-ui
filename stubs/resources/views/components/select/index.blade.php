@@ -38,6 +38,7 @@
                 },
                 'x-data'() {
                     return {
+                        __main: undefined,
                         __value: defaultValue,
                         __open: defaultOpen,
                         defaultValue,
@@ -46,15 +47,15 @@
                         disabled,
 
                         get __trigger() {
-                            return this.$refs.trigger;
+                            return this.__main._x_lumen_trigger;
                         },
 
                         get __content() {
-                            return this.$refs.content;
+                            return this.__main._x_lumen_content;
                         },
 
                         get __viewport() {
-                            return this.$refs.viewport;
+                            return this.__main._x_lumen_viewport;
                         },
 
                         __onValueChange(value) {
@@ -91,6 +92,7 @@
 
                         init() {
                             this.$el.removeAttribute('x-select');
+                            this.__main = this.$el;
 
                             this.$watch('__open', (newValue) => {
                                 if (newValue) {
@@ -124,11 +126,14 @@
 
         const handleTrigger = (el, Alpine) => {
             Alpine.bind(el, () => ({
-                'x-data': '',
-                'x-init'() {
-                    this.$el.removeAttribute('x-select:trigger');
+                'x-data'() {
+                    return {
+                        init() {
+                            this.$el.removeAttribute('x-select:trigger');
+                            this.__main._x_lumen_trigger = this.$el;
+                        },
+                    };
                 },
-                'x-ref': 'trigger',
                 ':id'() {
                     return this.__makeTriggerId(this.$id(SELECT_COMPONENT_ID));
                 },
@@ -157,17 +162,26 @@
                 'x-data'() {
                     return {
                         placeholder,
+                        label: '',
+
+                        __updateLabel() {
+                            this.label =  this.__value 
+                                ? this.__content?.querySelector(`[data-value=${this.__value}]`)
+                                ?.querySelector('[data-slot=select-item-text]')
+                                ?.textContent ?? this.__value 
+                                : this.placeholder;
+                        },
 
                         init() {
                             this.$el.removeAttribute('x-select:value');
+                            this.$watch('__value', newValue => {
+                                this.$nextTick(() => this.__updateLabel());
+                            });
+                            this.$nextTick(() => this.__updateLabel());
                         },
                     };
                 },
-                'x-text'() {
-                    return this.__value 
-                        ? this.__content.querySelector(`[data-value='${this.__value}']`)?.textContent ?? this.__value 
-                        : this.placeholder;
-                },
+                'x-text': 'label || placeholder',
                 'x-slot': 'select-value',
             }));
         };
@@ -201,7 +215,6 @@
                 'x-transition:leave': 'transition ease duration-100',
                 'x-transition:leave-start': 'opacity-100 translate-y-0',
                 'x-transition:leave-end': 'opacity-0 -translate-y-2',
-                'x-ref': 'content',
                 'x-anchorplus'() {
                     return {
                         reference: this.__trigger,
@@ -246,6 +259,7 @@
 
                         init() {
                             this.$el.removeAttribute('x-select:content');
+                            this.__main._x_lumen_content = this.$el;
 
                             this.$nextTick(() => {
                                 this.$el.style.setProperty('--lumen-trigger-width', `${this.__trigger.offsetWidth}px`);
@@ -268,11 +282,14 @@
 
         const handleContentViewport = (el, Alpine) => {
             Alpine.bind(el, () => ({
-                'x-ref': 'viewport',
-                'x-data': '',
-                'x-init'() {
-                    this.$el.removeAttribute('x-select:viewport');
-                },
+                'x-data'() {
+                    return {
+                        init() {
+                            this.$el.removeAttribute('x-select:viewport');
+                            this.__main._x_lumen_viewport = this.$el;
+                        }
+                    };
+                }
             }));
         };
 

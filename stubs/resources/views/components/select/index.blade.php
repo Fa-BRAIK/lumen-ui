@@ -137,9 +137,6 @@
                 ':id'() {
                     return this.__makeTriggerId(this.$id(SELECT_COMPONENT_ID));
                 },
-                'x-init'() {
-                    this.$el.removeAttribute('x-select:trigger');
-                },
                 ':aria-controls'() {
                     return this.__open 
                         ? this.__makeContentId(this.$id(SELECT_COMPONENT_ID))

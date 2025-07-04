@@ -16,11 +16,12 @@ class Directives
         Blade::directive('lumenScripts', static function (): string {
             $stackName = config('lumen.blade.stacks.scripts');
             $compiledStack = Blade::compileString("@stack('{$stackName}')");
+            $compiledLivewireScripts = Blade::compileString('@livewireScripts');
 
             return <<<PHP
                 {$compiledStack}
+                {$compiledLivewireScripts}
                 <?= app('lumen.assets')->prepareMainScript() ?>
-                <?php app('livewire')->forceAssetInjection(); ?>
             PHP;
         });
 

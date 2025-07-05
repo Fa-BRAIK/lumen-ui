@@ -41,6 +41,7 @@ export const RegisterToggleThemeStore = ({
     document.addEventListener('livewire:navigated', (e) => {
         if (Alpine.store(storeName).theme === 'dark') {
             e.target?.documentElement?.classList.add('dark');
+            e.target?.documentElement?.style.setProperty('color-scheme', 'dark');
         }
     });
 };

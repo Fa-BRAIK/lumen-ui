@@ -13,7 +13,6 @@
   * {
     border-color: var(--color-border);
     outline-color: color-mix(in oklab, var(--color-ring) 50%, transparent);
-    color: var(--color-foreground);
   }
 
   body[data-scroll-locked="1"] {

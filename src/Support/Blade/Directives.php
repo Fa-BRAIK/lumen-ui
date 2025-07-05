@@ -17,7 +17,7 @@ class Directives
             $stackName = config('lumen.blade.stacks.scripts');
             $compiledStack = Blade::compileString("@stack('{$stackName}')");
             $compiledLivewireScripts = Blade::compileString('@livewireScripts');
-            
+
             $injectComponents = config('lumen.blade.components.autoload.enabled', false)
                 ? '<?= app("lumen.assets")->injectLumenComponents() ?>'
                 : '';

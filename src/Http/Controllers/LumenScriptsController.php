@@ -28,10 +28,11 @@ readonly class LumenScriptsController extends Controller
             $id = $request->query('id');
             $manifestPath = __DIR__ . '/../../../dist/.vite/manifest.json';
             $manifest = json_decode(File::get($manifestPath), true);
+
             $entryPoint = Arr::first(
                 $manifest,
                 static fn (array $entryData) => Arr::string($entryData, 'name') === $name
-                    && Arr::string($entryData, 'file') === "{$name}.{$id}.js"
+                && Arr::string($entryData, 'file') === "{$name}.{$id}.js"
             );
 
             $filePath = __DIR__ . '/../../../dist/' . Arr::string($entryPoint, 'file');

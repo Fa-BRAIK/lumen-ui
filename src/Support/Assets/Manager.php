@@ -11,27 +11,46 @@ use Lumen\Http\Controllers\LumenScriptsController;
 
 class Manager
 {
+    protected const string MANIFEST_PATH = __DIR__ . '/../../../dist/.vite/manifest.json';
+
     public function boot(): void
     {
         $this->registerRoutes();
     }
 
-    public function prepareMainScript(): string
+    public function injectMainScript(): string
     {
-        $manifestPath = __DIR__ . '/../../../dist/.vite/manifest.json';
-        $manifest = json_decode(File::get($manifestPath), true);
+        return $this->injectScript('lumen');
+    }
+
+    public function injectLumenComponents(): string
+    {
+        return $this->injectScript('components');
+    }
+
+    private function injectScript(string $name): string
+    {
+        $id = $this->resolveScriptId($name);
+        $src = route('lumen.scripts.get', compact('name', 'id'));
+
+        return "<script src=\"{$src}\" data-navigate-once></script>";
+    }
+
+    public function resolveScriptId(string $name): ?string
+    {
+        $manifest = json_decode(File::get(self::MANIFEST_PATH), true);
 
         $entryPoint = Arr::first(
             $manifest,
-            static fn (array $entryData) => 'lumen' === Arr::string($entryData, 'name')
+            static fn (array $entryData) => $name === Arr::string($entryData, 'name')
         );
 
+        if (! $entryPoint) {
+            return null;
+        }
+
         $fileNameExploded = explode('.', Arr::string($entryPoint, 'file'));
-        $hash = $fileNameExploded[count($fileNameExploded) - 2];
-
-        $src = route('lumen.scripts.get', ['name' => 'lumen', 'id' => $hash]);
-
-        return "<script src=\"{$src}\" data-navigate-once></script>";
+        return $fileNameExploded[count($fileNameExploded) - 2];
     }
 
     protected function registerRoutes(): void

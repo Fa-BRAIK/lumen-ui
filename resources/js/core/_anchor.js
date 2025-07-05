@@ -1,15 +1,5 @@
 import { computePosition, autoUpdate, flip, offset, shift, arrow, size } from '@floating-ui/dom'
 
-export {
-    computePosition,
-    autoUpdate,
-    flip,
-    offset,
-    shift,
-    arrow,
-    size
-}
-
 export default function (Alpine) {
     const getHiddenElementWidth = el => {
         const clone = el.cloneNode(true)

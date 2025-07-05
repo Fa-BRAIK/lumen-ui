@@ -1,20 +1,24 @@
+import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
+import path from 'path'
 
 export default defineConfig({
     build: {
         outDir: 'dist',
         minify: 'esbuild',
         manifest: true,
-        lib: {
-            entry: 'resources/js/lumen.js',
-            name: 'Lumen',
-            fileName: 'lumen',
-            formats: ['es'],
-        },
         rollupOptions: {
+            input: {
+                lumen: path.resolve(__dirname, 'resources/js/lumen.js'),
+                components: path.resolve(__dirname, 'resources/js/components.js'),
+            },
             output: {
                 entryFileNames: '[name].[hash].js',
             },
         },
     },
+    esbuild: {
+        minifyIdentifiers: false,
+    },
+    plugins: [visualizer({ open: false })]
 })

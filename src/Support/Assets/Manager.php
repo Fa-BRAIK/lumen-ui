@@ -28,14 +28,6 @@ class Manager
         return $this->injectScript('components');
     }
 
-    private function injectScript(string $name): string
-    {
-        $id = $this->resolveScriptId($name);
-        $src = route('lumen.scripts.get', compact('name', 'id'));
-
-        return "<script src=\"{$src}\" data-navigate-once></script>";
-    }
-
     public function resolveScriptId(string $name): ?string
     {
         $manifest = json_decode(File::get(self::MANIFEST_PATH), true);
@@ -45,11 +37,12 @@ class Manager
             static fn (array $entryData) => $name === Arr::string($entryData, 'name')
         );
 
-        if (! $entryPoint) {
+        if ( ! $entryPoint) {
             return null;
         }
 
         $fileNameExploded = explode('.', Arr::string($entryPoint, 'file'));
+
         return $fileNameExploded[count($fileNameExploded) - 2];
     }
 
@@ -60,5 +53,13 @@ class Manager
                 Route::get('{name}', LumenScriptsController::class)->name('lumen.scripts.get');
             });
         });
+    }
+
+    private function injectScript(string $name): string
+    {
+        $id = $this->resolveScriptId($name);
+        $src = route('lumen.scripts.get', compact('name', 'id'));
+
+        return "<script src=\"{$src}\" data-navigate-once></script>";
     }
 }

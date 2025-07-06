@@ -1,4 +1,5 @@
 @source "../../stubs";
+@source "../js";
 
 @custom-variant dark (&:where(.dark, .dark *));
 

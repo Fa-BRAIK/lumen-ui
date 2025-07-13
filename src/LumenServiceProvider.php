@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Lumen;
 
 use Lumen\Support\Concerns\HasLumenSupport;
+use Lumen\TwMerge\TwMergeServiceProvider;
 use Override;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use TailwindMerge\Laravel\TailwindMergeServiceProvider;
 
 class LumenServiceProvider extends PackageServiceProvider
 {
@@ -55,7 +55,7 @@ class LumenServiceProvider extends PackageServiceProvider
 
     protected function registerDependencies(): static
     {
-        $this->app->register(TailwindMergeServiceProvider::class);
+        $this->app->register(TwMergeServiceProvider::class);
 
         return $this;
     }

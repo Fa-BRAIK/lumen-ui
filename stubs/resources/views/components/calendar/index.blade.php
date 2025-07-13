@@ -12,75 +12,75 @@
                 ...$settings,
                 'styles' => [
                     ...$settings['styles'] ?? [],
-                    'calendar' => twMerge(
+                    'calendar' => tw_merge(
                         $settings['styles']['calendar'] ?? '',
                         'group:calendar p-3 gap-4',
                         $attributes->get('class'),
                     ),
-                    'controls' => twMerge(
+                    'controls' => tw_merge(
                         $settings['styles']['controls'] ?? '',
                         'p-3'
                     ),
-                    'grid' => twMerge(
+                    'grid' => tw_merge(
                         $settings['styles']['grid'] ?? '',
                         'gap-4',
                     ),
-                    'column' => twMerge(
+                    'column' => tw_merge(
                         $settings['styles']['column'] ?? '',
                         'gap-4',
                     ),
-                    'header' => twMerge(
+                    'header' => tw_merge(
                         $settings['styles']['header'] ?? '',
                         'data-[vc=header]:mb-0 px-1',
                     ),
-                    'headerContent' => twMerge(
+                    'headerContent' => tw_merge(
                         $settings['styles']['headerContent'] ?? '',
                         'gap-1.5',
                     ),
-                    'month' => twMerge(
+                    'month' => tw_merge(
                         $settings['styles']['month'] ?? '',
                         'has-focus:border-ring border border-input shadow-xs has-focus:ring-ring/50 text-sm font-medium px-1.5',
                     ),
-                    'year' => twMerge(
+                    'year' => tw_merge(
                         $settings['styles']['year'] ?? '',
                         'has-focus:border-ring border border-input shadow-xs has-focus:ring-ring/50 text-sm font-medium px-1.5',
                     ),
-                    'arrowPrev' => twMerge(
+                    'arrowPrev' => tw_merge(
                         $settings['styles']['arrowPrev'] ?? '',
                         'data-[vc-arrow]:size-8 hover:bg-muted rounded-lg',
                         'before:bg-no-repeat before:bg-center before:size-4 before:top-1/2 before:-translate-y-1/2 before:left-1/2 before:-translate-x-1/2',
                         "before:bg-[image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzBmMTcyYSIgZD0iTTEyIDE2Yy0uMyAwLS41LS4xLS43LS4zbC02LTZjLS40LS40LS40LTEgMC0xLjRzMS0uNCAxLjQgMGw1LjMgNS4zIDUuMy01LjNjLjQtLjQgMS0uNCAxLjQgMHMuNCAxIDAgMS40bC02IDZjLS4yLjItLjQuMy0uNy4zIi8+PC9zdmc+)]",
                         "dark:before:bg-[image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDE2Yy0uMyAwLS41LS4xLS43LS4zbC02LTZjLS40LS40LS40LTEgMC0xLjRzMS0uNCAxLjQgMGw1LjMgNS4zIDUuMy01LjNjLjQtLjQgMS0uNCAxLjQgMHMuNCAxIDAgMS40bC02IDZjLS4yLjItLjQuMy0uNy4zIi8+PC9zdmc+)]",
                     ),
-                    'arrowNext' => twMerge(
+                    'arrowNext' => tw_merge(
                         $settings['styles']['arrowNext'] ?? '',
                         'data-[vc-arrow]:size-8 hover:bg-muted rounded-lg',
                         'before:bg-no-repeat before:bg-center before:size-4 before:top-1/2 before:-translate-y-1/2 before:right-1/2 before:translate-x-1/2',
                         'before:bg-[image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzBmMTcyYSIgZD0iTTEyIDE2Yy0uMyAwLS41LS4xLS43LS4zbC02LTZjLS40LS40LS40LTEgMC0xLjRzMS0uNCAxLjQgMGw1LjMgNS4zIDUuMy01LjNjLjQtLjQgMS0uNCAxLjQgMHMuNCAxIDAgMS40bC02IDZjLS4yLjItLjQuMy0uNy4zIi8+PC9zdmc+)]',
                         "dark:before:bg-[image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDE2Yy0uMyAwLS41LS4xLS43LS4zbC02LTZjLS40LS40LS40LTEgMC0xLjRzMS0uNCAxLjQgMGw1LjMgNS4zIDUuMy01LjNjLjQtLjQgMS0uNCAxLjQgMHMuNCAxIDAgMS40bC02IDZjLS4yLjItLjQuMy0uNy4zIi8+PC9zdmc+')]",
                     ),
-                    'wrapper' => twMerge(
+                    'wrapper' => tw_merge(
                         $settings['styles']['wrapper'] ?? '',
                         'w-fit mx-auto',
                     ),
-                    'week' => twMerge(
+                    'week' => tw_merge(
                         $settings['styles']['week'] ?? '',
                         'mb-2',
                     ),
-                    'weekDay' => twMerge(
+                    'weekDay' => tw_merge(
                         $settings['styles']['weekDay'] ?? '',
                         'text-muted-foreground rounded-md font-normal text-[0.8rem] select-none',
                     ),
-                    'dates' => twMerge(
+                    'dates' => tw_merge(
                         $settings['styles']['dates'] ?? '',
                         'gap-y-2 gap-x-0',
                     ),
-                    'date' => twMerge(
+                    'date' => tw_merge(
                         $settings['styles']['date'] ?? '',
                         'group/calendar-date',
                         'hover:bg-muted rounded-md size-8 p-0',
                     ),
-                    'dateBtn' => twMerge(
+                    'dateBtn' => tw_merge(
                         $settings['styles']['dateBtn'] ?? '',
                         'text-sm size-8 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-2 focus:border-ring focus:ring-ring/50 focus:ring-2',
                         'group-[:is([data-vc-date-month=prev],[data-vc-date-month=next],[data-vc-date-disabled])]/calendar-date:text-muted-foreground',
@@ -88,11 +88,11 @@
                         'group-data-[vc-date-selected]/calendar-date:bg-primary group-data-[vc-date-selected]/calendar-date:text-primary-foreground',
                         'group-data-[vc-date-selected=middle]/calendar-date:bg-accent group-data-[vc-date-selected=middle]/calendar-date:text-accent-foreground',
                     ),
-                    'monthsMonth' => twMerge(
+                    'monthsMonth' => tw_merge(
                         $settings['styles']['monthsMonth'] ?? '',
                         'font-normal'
                     ),
-                    'yearsYear' => twMerge(
+                    'yearsYear' => tw_merge(
                         $settings['styles']['yearsYear'] ?? '',
                         'font-normal'
                     ),

@@ -87,6 +87,8 @@
                         'group-[:is([data-vc-date-today]):not([data-vc-date-selected])]/calendar-date:bg-muted group-[:is([data-vc-date-today]):not([data-vc-date-selected])]/calendar-date:font-normal',
                         'group-data-[vc-date-selected]/calendar-date:bg-primary group-data-[vc-date-selected]/calendar-date:text-primary-foreground',
                         'group-data-[vc-date-selected=middle]/calendar-date:bg-accent group-data-[vc-date-selected=middle]/calendar-date:text-accent-foreground',
+                        'group-data-[vc-date-hover]/calendar-date:bg-accent group-data-[vc-date-hover]/calendar-date:text-accent-foreground',
+                        'group-data-[vc-date-hover=late]/calendar-date:bg-accent group-data-[vc-date-hover=late]/calendar-date:text-accent-foreground',
                     ),
                     'monthsMonth' => tw_merge(
                         $settings['styles']['monthsMonth'] ?? '',

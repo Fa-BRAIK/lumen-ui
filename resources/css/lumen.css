@@ -16,6 +16,10 @@
     outline-color: color-mix(in oklab, var(--color-ring) 50%, transparent);
   }
 
+  *::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+
   body[data-scroll-locked="1"] {
     overflow: hidden;
   }

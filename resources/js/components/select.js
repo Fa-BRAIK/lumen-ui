@@ -138,7 +138,7 @@ export const registerComponent = () => {
 
                     __updateLabel() {
                         this.label =  this.__value 
-                            ? this.__content?.querySelector(`[data-value=${this.__value}]`)
+                            ? this.__content?.querySelector(`[data-value="${this.__value}"]`)
                             ?.querySelector('[data-slot=select-item-text]')
                             ?.textContent ?? this.__value 
                             : this.placeholder;

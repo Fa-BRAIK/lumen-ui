@@ -10,7 +10,8 @@
         'data-slot' => 'dropdown-menu-trigger',
         'aria-haspopup' => 'true',
         'x-dropdown-menu:trigger' => ''
-    ]))
+    ])
+    ->merge($asChild ? [] : ['tab-index' => '0']))
 
 <x-lumen::primitive :attributes="$attributes">
     {{ $slot }}

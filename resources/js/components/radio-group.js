@@ -1,33 +1,37 @@
 export const registerComponent = () => {
     const commonProps = {
         ':dir'() {
-            return this.dir;
+            return this.dir
         },
         ':data-orientation'() {
-            return this.orientation;
+            return this.orientation
         },
         ':aria-orientation'() {
-            return this.orientation;
+            return this.orientation
         },
         ':data-disabled'() {
-            return this.disabled ? true : undefined;
+            return this.disabled ? true : undefined
         },
-    };
+    }
 
-    const handleRoot = (el, Alpine, { defaultValue, orientation, dir, loop, disabled }) => {
+    const handleRoot = (
+        el,
+        Alpine,
+        { defaultValue, orientation, dir, loop, disabled },
+    ) => {
         Alpine.bind(el, () => ({
             ...commonProps,
             '@keydown.left'() {
-                this.__selectPrevious();
+                this.__selectPrevious()
             },
             '@keydown.up.prevent'() {
-                this.__selectPrevious();
+                this.__selectPrevious()
             },
             '@keydown.right'() {
-                this.__selectNext();
+                this.__selectNext()
             },
             '@keydown.down.prevent'() {
-                this.__selectNext();
+                this.__selectNext()
             },
             'x-data'() {
                 return {
@@ -40,72 +44,72 @@ export const registerComponent = () => {
 
                     __selectPrevious() {
                         if (this.__disabled) {
-                            return;
+                            return
                         }
 
-                        let previous = this.$focus.getPrevious();
+                        let previous = this.$focus.getPrevious()
                         if (this.$focus.getPrevious()) {
-                            this.$focus.previous();
-                            this.__onValueChange(previous.dataset.value);
+                            this.$focus.previous()
+                            this.__onValueChange(previous.dataset.value)
                         } else if (this.loop) {
-                            previous = this.$focus.getLast();
-                            this.$focus.last();
-                            this.__onValueChange(previous.dataset.value);
+                            previous = this.$focus.getLast()
+                            this.$focus.last()
+                            this.__onValueChange(previous.dataset.value)
                         }
                     },
 
                     __selectNext() {
                         if (this.__disabled) {
-                            return;
+                            return
                         }
 
-                        let next = this.$focus.getNext();
+                        let next = this.$focus.getNext()
                         if (next) {
-                            this.$focus.next();
-                            this.__onValueChange(next.dataset.value);
+                            this.$focus.next()
+                            this.__onValueChange(next.dataset.value)
                         } else if (this.loop) {
-                            next = this.$focus.getFirst();
-                            this.$focus.first();
-                            this.__onValueChange(next.dataset.value);
+                            next = this.$focus.getFirst()
+                            this.$focus.first()
+                            this.__onValueChange(next.dataset.value)
                         }
                     },
 
                     __onValueChange(value) {
                         if (this.__disabled) {
-                            return;
+                            return
                         }
 
-                        this.__value = value;
+                        this.__value = value
                     },
 
                     init() {
-                        this.$el.removeAttribute('x-radio-group');
+                        this.$el.removeAttribute('x-radio-group')
                     },
-                };
+                }
             },
             'x-modelable': '__value',
-        }));
-    };
+        }))
+    }
 
     const handleItem = (el, Alpine, { value, disabled }) => {
         Alpine.bind(el, () => ({
             ':aria-checked'() {
-                return this.checked ? 'true' : 'false';
+                return this.checked ? 'true' : 'false'
             },
             ':data-state'() {
-                return this.checked ? 'checked' : 'unchecked';
+                return this.checked ? 'checked' : 'unchecked'
             },
             ':data-disabled'() {
-                return this.disabled ? true : undefined;
+                return this.disabled ? true : undefined
             },
             ':disabled'() {
-                return this.disabled ? true : undefined;
+                return this.disabled ? true : undefined
             },
             '@click'() {
                 if (this.disabled) {
-                    return;
+                    return
                 }
-                this.__onValueChange(this.value);
+                this.__onValueChange(this.value)
             },
             'x-data'() {
                 return {
@@ -113,24 +117,27 @@ export const registerComponent = () => {
                     disabled,
 
                     get checked() {
-                        return this.__value === this.value;
+                        return this.__value === this.value
                     },
 
                     init() {
-                        this.$el.removeAttribute('x-radio-group:item');
-                    }
-                };
+                        this.$el.removeAttribute('x-radio-group:item')
+                    },
+                }
+            },
+        }))
+    }
+
+    Alpine.directive(
+        'radio-group',
+        (el, { value, expression }, { Alpine, evaluate }) => {
+            const params = expression ? evaluate(expression) : {}
+
+            if (!value) handleRoot(el, Alpine, params)
+            else if (value === 'item') handleItem(el, Alpine, params)
+            else {
+                console.warn(`Unknown radio group directive value: ${value}`)
             }
-        }));
-    };
-
-    Alpine.directive('radio-group', (el, {value, expression}, {Alpine, evaluate}) => {
-        const params = expression ? evaluate(expression) : {};
-
-        if (! value) handleRoot(el, Alpine, params);
-        else if (value === 'item') handleItem(el, Alpine, params);
-        else {
-            console.warn(`Unknown radio group directive value: ${value}`);
-        }
-    }).before('bind');
+        },
+    ).before('bind')
 }

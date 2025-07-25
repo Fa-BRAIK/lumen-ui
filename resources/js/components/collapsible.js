@@ -1,8 +1,8 @@
 export const registerComponent = () => {
     const stateProps = {
         ':data-state': '__open ? "open" : "closed"',
-        ':data-disabled': 'disabled'
-    };
+        ':data-disabled': 'disabled',
+    }
 
     const handleRoot = (el, Alpine, { defaultOpen, disabled }) => {
         Alpine.bind(el, {
@@ -13,18 +13,18 @@ export const registerComponent = () => {
                     disabled,
 
                     __onValueChange(value) {
-                        if (this.disabled) return;
+                        if (this.disabled) return
 
-                        this.__open = value;
+                        this.__open = value
                     },
 
                     init() {
-                        this.$el.removeAttribute('x-collapsible');
-                    }
-                };
-            }
-        });
-    };
+                        this.$el.removeAttribute('x-collapsible')
+                    },
+                }
+            },
+        })
+    }
 
     const handleTrigger = (el, Alpine) => {
         Alpine.bind(el, {
@@ -32,10 +32,10 @@ export const registerComponent = () => {
             '@click': '__onValueChange(!__open)',
             'x-data': '',
             'x-init'() {
-                this.$el.removeAttribute('x-collapsible:trigger');
-            }
-        });
-    };
+                this.$el.removeAttribute('x-collapsible:trigger')
+            },
+        })
+    }
 
     const handleContent = (el, Alpine) => {
         Alpine.bind(el, {
@@ -44,19 +44,22 @@ export const registerComponent = () => {
             'x-collapse': '',
             'x-data': '',
             'x-init'() {
-                this.$el.removeAttribute('x-collapsible:content');
-            }                
+                this.$el.removeAttribute('x-collapsible:content')
+            },
         })
-    };
+    }
 
-    Alpine.directive('collapsible', (el, {value, expression}, {Alpine, evaluate}) => {
-        const params = expression ? evaluate(expression) : {};
+    Alpine.directive(
+        'collapsible',
+        (el, { value, expression }, { Alpine, evaluate }) => {
+            const params = expression ? evaluate(expression) : {}
 
-        if (! value) handleRoot(el, Alpine, params);
-        else if (value === 'trigger') handleTrigger(el, Alpine);
-        else if (value === 'content') handleContent(el, Alpine);
-        else {
-            console.warn(`Unknown collapsible directive value: ${value}`);
-        }
-    }).before('bind');
+            if (!value) handleRoot(el, Alpine, params)
+            else if (value === 'trigger') handleTrigger(el, Alpine)
+            else if (value === 'content') handleContent(el, Alpine)
+            else {
+                console.warn(`Unknown collapsible directive value: ${value}`)
+            }
+        },
+    ).before('bind')
 }

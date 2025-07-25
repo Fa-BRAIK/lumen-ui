@@ -5,7 +5,7 @@ import carousel from './core/_embla'
 import calendar from './core/_calendarpro'
 
 document.addEventListener('alpine:init', () => {
-    Alpine.plugin(Alpine => {
+    Alpine.plugin((Alpine) => {
         Alpine.plugin(focus)
         Alpine.plugin(anchor)
         Alpine.plugin(collapse)

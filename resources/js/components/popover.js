@@ -2,12 +2,18 @@ export const registerComponent = () => {
     const stateProps = {
         ':data-state'() {
             return this.__open
-                ? this.delayDuration > 0 ? 'delayed-open' : 'instant-open'
-                : 'closed';
+                ? this.delayDuration > 0
+                    ? 'delayed-open'
+                    : 'instant-open'
+                : 'closed'
         },
-    };
-    
-    const handleRoot = (el, Alpine, { defaultOpen, delayDuration, closeDelay }) => {
+    }
+
+    const handleRoot = (
+        el,
+        Alpine,
+        { defaultOpen, delayDuration, closeDelay },
+    ) => {
         Alpine.bind(el, () => ({
             '@keydown.escape.window': '__onOpenChange(false, true)',
             'x-data'() {
@@ -19,21 +25,21 @@ export const registerComponent = () => {
                     closeDelay,
 
                     get __trigger() {
-                        return this.__main._x_lumen_trigger;
+                        return this.__main._x_lumen_trigger
                     },
 
                     __onOpenChange(newValue) {
-                        this.__open = newValue;
+                        this.__open = newValue
                     },
 
                     init() {
-                        this.$el.removeAttribute('x-popover');
+                        this.$el.removeAttribute('x-popover')
                     },
-                };
+                }
             },
             'x-modelable': '__open',
-        }));
-    };
+        }))
+    }
 
     const handleTrigger = (el, Alpine) => {
         Alpine.bind(el, () => ({
@@ -41,11 +47,11 @@ export const registerComponent = () => {
             '@click': '__onOpenChange(true)',
             'x-data': '',
             'x-init'() {
-                this.$el.removeAttribute('x-popover:trigger');
-                this.__main._x_lumen_trigger = this.$el;
+                this.$el.removeAttribute('x-popover:trigger')
+                this.__main._x_lumen_trigger = this.$el
             },
-        }));
-    };
+        }))
+    }
 
     const handleContent = (el, Alpine, { side, align, sideOffset }) => {
         Alpine.bind(el, () => ({
@@ -62,13 +68,15 @@ export const registerComponent = () => {
             'x-anchorplus'() {
                 return {
                     reference: this.__trigger,
-                    placement: this.side + (this.align === 'center' ? '' : `-${this.align}`),
+                    placement:
+                        this.side +
+                        (this.align === 'center' ? '' : `-${this.align}`),
                     sideOffset: this.sideOffset,
-                };
+                }
             },
             '@click.outside'() {
                 if (this.__open) {
-                    this.__onOpenChange(false);
+                    this.__onOpenChange(false)
                 }
             },
             'x-data'() {
@@ -78,21 +86,24 @@ export const registerComponent = () => {
                     sideOffset,
 
                     init() {
-                        this.$el.removeAttribute('x-popover:content');
-                    }
-                };
+                        this.$el.removeAttribute('x-popover:content')
+                    },
+                }
+            },
+        }))
+    }
+
+    Alpine.directive(
+        'popover',
+        (el, { value, expression }, { Alpine, evaluate }) => {
+            const params = expression ? evaluate(expression) : {}
+
+            if (!value) handleRoot(el, Alpine, params)
+            else if (value === 'trigger') handleTrigger(el, Alpine, params)
+            else if (value === 'content') handleContent(el, Alpine, params)
+            else {
+                console.warn(`Unknown popover directive value: ${value}`)
             }
-        }));
-    };
-
-    Alpine.directive('popover', (el, {value, expression}, {Alpine, evaluate}) => {
-        const params = expression ? evaluate(expression) : {};
-
-        if (! value) handleRoot(el, Alpine, params);
-        else if (value === 'trigger') handleTrigger(el, Alpine, params);
-        else if (value === 'content') handleContent(el, Alpine, params);
-        else {
-            console.warn(`Unknown popover directive value: ${value}`);
-        }
-    }).before('bind');
+        },
+    ).before('bind')
 }

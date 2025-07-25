@@ -19,6 +19,7 @@ import { registerComponent as registerTabsComponent } from './components/tabs'
 import { registerComponent as registerToggleComponent } from './components/toggle'
 import { registerComponent as registerToggleGroupComponent } from './components/toggle.group'
 import { registerComponent as registerTooltipComponent } from './components/tooltip'
+import { registerComponent as registerSonnerComponent } from './components/sonner'
 
 const registerAllComponents = () => {
     registerAccordionComponent()
@@ -42,6 +43,7 @@ const registerAllComponents = () => {
     registerToggleComponent()
     registerToggleGroupComponent()
     registerTooltipComponent()
+    registerSonnerComponent()
 }
 
 document.addEventListener('alpine:init', registerAllComponents)

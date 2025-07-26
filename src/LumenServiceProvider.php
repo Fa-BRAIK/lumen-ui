@@ -6,7 +6,6 @@ namespace Lumen;
 
 use Lumen\Support\Concerns\HasLumenSupport;
 use Lumen\TwMerge\TwMergeServiceProvider;
-use Override;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -27,27 +26,17 @@ class LumenServiceProvider extends PackageServiceProvider
             ->hasViews('lumen');
     }
 
-    /**
-     * @phpstan-return static
-     */
-    #[Override]
-    public function register()
+    public function registeringPackage(): void
     {
-        parent::register();
-
-        return $this
+        $this
             ->registerDependencies()
             ->registerAliases()
             ->registerSingletons();
     }
 
-    /**
-     * @phpstan-return static
-     */
-    #[Override]
-    public function boot()
+    public function bootingPackage(): void
     {
-        return parent::boot()
+        $this
             ->bootBladeDirectives()
             ->bootBladeComponents()
             ->bootLumenAssets();

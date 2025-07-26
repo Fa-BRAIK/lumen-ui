@@ -6,7 +6,6 @@ namespace Lumen\Http\Controllers;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -47,7 +46,7 @@ readonly class LumenScriptsController extends Controller
                 ]
             );
         } catch (FileNotFoundException) {
-            abort(HttpResponse::HTTP_NOT_FOUND);
+            abort(Response::HTTP_NOT_FOUND);
         }
     }
 

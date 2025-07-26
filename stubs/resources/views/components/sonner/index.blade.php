@@ -378,7 +378,7 @@
                                 </div>
                                 <p x-show="toast.description"
                                    :class="{ 'pl-5' : toast.type!='default' }"
-                                   class="mt-1.5 text-xs leading-none opacity-70" x-text="toast.description"></p>
+                                   class="mt-2.5 text-xs leading-none text-muted-foreground opacity-70" x-text="toast.description"></p>
                             </div>
                         </template>
                         <template x-if="toast.html">

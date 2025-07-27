@@ -8,6 +8,7 @@ use Closure;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -18,7 +19,7 @@ use Lumen\Support\Blade\Components\Manifest;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand('lumen:install-component', 'Install a lumen component')]
-class InstallLumenComponentCommand extends Command implements PromptsForMissingInput
+final class InstallLumenComponentCommand extends Command implements PromptsForMissingInput
 {
     /**
      * The name and signature of the console command.
@@ -235,10 +236,14 @@ class InstallLumenComponentCommand extends Command implements PromptsForMissingI
             'component' => fn () => search(
                 label: 'Select a component to install',
                 options: fn (string $value) => collect(Manifest::COMPONENTS)
-                    ->filter(fn (string $name, string $key) => Str::contains($name, $value, ignoreCase: true)
-                        || Str::contains($value, $key, ignoreCase: true))
-                    ->take(5)
-                    ->all()
+                    ->when(
+                        Str::length($value) > 0,
+                        static fn (Collection $components) => $components->filter(fn (string $name, string $key) => Str::contains($name, $value, ignoreCase: true)
+                            || Str::contains($value, $key, ignoreCase: true))
+                            ->take(5)
+                    )
+                    ->all(),
+                scroll: 15,
             ),
         ];
     }

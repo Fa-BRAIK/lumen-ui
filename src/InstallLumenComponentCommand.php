@@ -11,10 +11,11 @@ use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Lumen\Support\Blade\Components\Manifest;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 use function Laravel\Prompts\search;
+
+use Lumen\Support\Blade\Components\Manifest;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand('lumen:install-component', 'Install a lumen component')]
 class InstallLumenComponentCommand extends Command implements PromptsForMissingInput
@@ -67,6 +68,36 @@ class InstallLumenComponentCommand extends Command implements PromptsForMissingI
         $this->installComponent($component);
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function copyDependencies(Manifest $component, bool $usingForce = false): void
+    {
+        $this->comment('Copying dependencies...');
+
+        foreach ($component->dependencies() as $dependencyComponent) {
+            $this->comment(sprintf(
+                'Installing dependency "%s"...',
+                $dependencyComponent->name
+            ));
+
+            $result = $this->call(
+                "lumen:install-component {$dependencyComponent->name}",
+                [
+                    '--with-dependencies' => true,
+                    '--force' => $usingForce,
+                ]
+            );
+
+            if (Command::SUCCESS !== $result) {
+                throw new Exception(sprintf(
+                    'Failed to install dependency "%s".',
+                    $dependencyComponent->name
+                ));
+            }
+        }
     }
 
     protected function resolveComponent(): Manifest
@@ -190,36 +221,6 @@ class InstallLumenComponentCommand extends Command implements PromptsForMissingI
             }
 
             Storage::copy($component->cssResourcesPath() . $cssFile . '.css', $fileDistPath);
-        }
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function copyDependencies(Manifest $component, bool $usingForce = false): void
-    {
-        $this->comment('Copying dependencies...');
-
-        foreach ($component->dependencies() as $dependencyComponent) {
-            $this->comment(sprintf(
-                'Installing dependency "%s"...',
-                $dependencyComponent->name
-            ));
-
-            $result = $this->call(
-                "lumen:install-component $dependencyComponent->name",
-                [
-                    '--with-dependencies' => true,
-                    '--force' => $usingForce,
-                ]
-            );
-
-            if (Command::SUCCESS !== $result) {
-                throw new Exception(sprintf(
-                    'Failed to install dependency "%s".',
-                    $dependencyComponent->name
-                ));
-            }
         }
     }
 

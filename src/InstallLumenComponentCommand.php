@@ -278,7 +278,9 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
                             ->take(5)
                     )
                     ->all(),
+                placeholder: 'Search for a component',
                 scroll: 15,
+                hint: 'Type to search for a component',
             ),
         ];
     }

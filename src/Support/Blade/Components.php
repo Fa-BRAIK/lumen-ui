@@ -16,13 +16,6 @@ class Components
             return;
         }
 
-        if (file_exists(resource_path('views/lumen'))) {
-            Blade::anonymousComponentPath(
-                resource_path('views/lumen'),
-                config('lumen.blade.components.autoload.namespace')
-            );
-        }
-
         Blade::anonymousComponentPath(
             __DIR__ . '/../../../stubs/resources/views/components',
             config('lumen.blade.components.autoload.namespace')

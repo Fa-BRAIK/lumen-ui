@@ -2,9 +2,8 @@
 
 [![GitHub License](https://img.shields.io/github/license/nuxtifyts/php-dto)](https://github.com/Fa-BRAIK/lumen-tw/blob/main/LICENSE.md)
 [![PHP](https://img.shields.io/badge/php-%23777BB4.svg?&logo=php&logoColor=white&label=8.3)](https://www.php.net/releases/8.3/en.php)
-[![PhpStan Level](https://img.shields.io/badge/PHPStan-level%2010-brightgreen.svg)](https://phpstan.org/user-guide/rule-levels)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/lumen-ui/lumen-tw.svg?style=flat-square)](https://packagist.org/packages/lumen-ui/lumen-tw)
-[![run-tests](https://github.com/Fa-BRAIK/lumen-tw/actions/workflows/run-tests.yml/badge.svg)](https://github.com/Fa-BRAIK/lumen-tw/actions/workflows/run-tests.yml)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/lumen-ui/lumen-ui.svg?style=flat-square)](https://packagist.org/packages/lumen-ui/lumen-ui)
+[![run-tests](https://github.com/Fa-BRAIK/lumen-ui/actions/workflows/run-tests.yml/badge.svg)](https://github.com/Fa-BRAIK/lumen-ui/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/lumen-ui/lumen-tw.svg?style=flat-square)](https://packagist.org/packages/lumen-ui/lumen-tw)
 
 ## Installation

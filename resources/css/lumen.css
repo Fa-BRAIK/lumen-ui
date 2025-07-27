@@ -4,7 +4,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
-  @import "vanilla-calendar-pro/styles/layout.css";
+  @import "./_vanilla-calendar-pro.css";
 
   button:not(:disabled),
   [role="button"]:not(:disabled) {

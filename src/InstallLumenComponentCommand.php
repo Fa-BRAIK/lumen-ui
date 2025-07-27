@@ -50,11 +50,11 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
         $canInstall = $this->canInstallComponent($component);
 
         if (true !== $canInstall && ! $this->option('force')) {
-            $this->warn(
+            $this->error(
                 match ($canInstall) {
                     'component_already_exists' => 'The component is already installed.',
                     'component_assets_cannot_be_copied' => 'The component has assets that cannot be copied.',
-                    'component_dependencies_not_installed' => 'The component has dependencies that can not installed.',
+                    'component_dependencies_not_installed' => 'The component has dependencies that are not installed.',
                     default => 'An unknown error occurred while checking the component installation.'
                 }
             );
@@ -109,7 +109,8 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
         $bladePath = config('lumen.installation.paths.blade');
 
         if (
-            File::isDirectory("{$bladePath}/{$component->name}")
+            File::isDirectory($component->bladeStubPath())
+            && File::isDirectory("{$bladePath}/{$component->name}")
             && File::isEmptyDirectory("{$bladePath}/{$component->name}")
         ) {
             return 'component_already_exists';
@@ -162,6 +163,10 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
      */
     protected function copyBladeFiles(Manifest $component, bool $usingForce = false): void
     {
+        if ( ! File::isDirectory($component->bladeStubPath())) {
+            return;
+        }
+
         $this->comment('Copying Blade files...');
         $distPath = $component->bladeDistPath();
 
@@ -225,7 +230,7 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
      */
     protected function copyDependencies(Manifest $component, bool $usingForce = false): void
     {
-        if ( ! $component->dependencies()) {
+        if ( ! $component->dependencies() || ! $this->option('with-dependencies')) {
             return;
         }
 
@@ -238,8 +243,9 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
             ));
 
             $result = $this->call(
-                "lumen:install-component {$dependencyComponent->name}",
+                'lumen:install-component',
                 [
+                    'component' => $dependencyComponent->name,
                     '--with-dependencies' => true,
                     '--force' => $usingForce,
                 ]

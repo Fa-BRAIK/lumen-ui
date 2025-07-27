@@ -9,7 +9,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -64,41 +64,19 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
             return Command::FAILURE;
         }
 
-        $this->comment(sprintf('Installing component "%s"...', $component->name));
-
-        $this->installComponent($component);
-
-        return Command::SUCCESS;
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function copyDependencies(Manifest $component, bool $usingForce = false): void
-    {
-        $this->comment('Copying dependencies...');
-
-        foreach ($component->dependencies() as $dependencyComponent) {
-            $this->comment(sprintf(
-                'Installing dependency "%s"...',
-                $dependencyComponent->name
+        try {
+            $this->installComponent($component);
+        } catch (Exception $e) {
+            $this->error(sprintf(
+                'Failed to install component "%s": %s',
+                $component->name,
+                $e->getMessage()
             ));
 
-            $result = $this->call(
-                "lumen:install-component {$dependencyComponent->name}",
-                [
-                    '--with-dependencies' => true,
-                    '--force' => $usingForce,
-                ]
-            );
-
-            if (Command::SUCCESS !== $result) {
-                throw new Exception(sprintf(
-                    'Failed to install dependency "%s".',
-                    $dependencyComponent->name
-                ));
-            }
+            return Command::FAILURE;
         }
+
+        return Command::SUCCESS;
     }
 
     protected function resolveComponent(): Manifest
@@ -125,7 +103,10 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
     {
         $bladePath = config('lumen.installation.paths.blade');
 
-        if (Storage::directoryExists($bladePath . DIRECTORY_SEPARATOR . $component->name)) {
+        if (
+            File::isDirectory("{$bladePath}/{$component->name}")
+            && File::isEmptyDirectory("{$bladePath}/{$component->name}")
+        ) {
             return 'component_already_exists';
         }
 
@@ -137,7 +118,7 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
 
             foreach ($assets as $path => $files) {
                 foreach ($files as $file) {
-                    if (Storage::exists($path . DIRECTORY_SEPARATOR . $file)) {
+                    if (File::exists("{$path}/{$file}")) {
                         return 'component_assets_cannot_be_copied';
                     }
                 }
@@ -160,11 +141,15 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
      */
     protected function installComponent(Manifest $component): void
     {
+        $this->comment(sprintf('Installing component "%s"...', $component->name));
+
         $usingForce = $this->option('force');
 
         $this->copyBladeFiles($component, $usingForce);
         $this->copyAssets($component, $usingForce);
         $this->copyDependencies($component, $usingForce);
+
+        $this->info(sprintf('Component "%s" installed successfully.', $component->name));
     }
 
     /**
@@ -175,16 +160,17 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
         $this->comment('Copying Blade files...');
         $distPath = $component->bladeDistPath();
 
-        if ( ! Storage::directoryExists($distPath)) {
-            Storage::makeDirectory($distPath);
-        } elseif ($usingForce) {
-            Storage::deleteDirectory($distPath);
-            Storage::makeDirectory($distPath);
-        } else {
-            throw new Exception('blade_component_directory_already_exists');
+        if (File::isDirectory($distPath)) {
+            if ( ! File::isEmptyDirectory($distPath) && ! $usingForce) {
+                throw new Exception('blade_component_directory_already_exists');
+            }
+
+            File::deleteDirectory($distPath);
         }
 
-        Storage::copy($component->bladeStubPath(), $distPath);
+        if ( ! File::copyDirectory($component->bladeStubPath(), $distPath)) {
+            throw new Exception('failed_to_copy_blade_directory');
+        }
     }
 
     /**
@@ -192,36 +178,74 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
      */
     protected function copyAssets(Manifest $component, bool $usingForce = false): void
     {
+        if ( ! $component->hasAssets()) {
+            return ;
+        }
+
         $this->comment('Copying assets...');
         $jsDistPath = $component->jsDistPath();
         $cssDistPath = $component->cssDistPath();
 
-        if ( ! Storage::directoryExists($jsDistPath)) {
-            Storage::makeDirectory($jsDistPath);
+        if ( ! File::isDirectory($jsDistPath)) {
+            File::makeDirectory($jsDistPath);
         }
 
-        if ( ! Storage::directoryExists($cssDistPath)) {
-            Storage::makeDirectory($cssDistPath);
+        if ( ! File::isDirectory($cssDistPath)) {
+            File::makeDirectory($cssDistPath);
         }
 
         foreach ($component->jsAssets() as $jsFile) {
-            $fileDistPath = "{$jsDistPath}/{$jsFile}.js";
+            $fileDistPath = "{$jsDistPath}/{$jsFile}";
 
-            if (Storage::exists($fileDistPath) && ! $usingForce) {
+            if (File::exists($fileDistPath) && ! $usingForce) {
                 throw new Exception("JavaScript asset '{$jsFile}' already exists.");
             }
 
-            Storage::copy($component->jsResourcesPath() . $jsFile . '.js', $fileDistPath);
+            File::copy($component->jsResourcesPath() . "/{$jsFile}", $fileDistPath);
         }
 
         foreach ($component->cssAssets() as $cssFile) {
-            $fileDistPath = "{$cssDistPath}/{$cssFile}.css";
+            $fileDistPath = "{$cssDistPath}/{$cssFile}";
 
-            if (Storage::exists($fileDistPath) && ! $usingForce) {
+            if (File::exists($fileDistPath) && ! $usingForce) {
                 throw new Exception("CSS asset '{$cssFile}' already exists.");
             }
 
-            Storage::copy($component->cssResourcesPath() . $cssFile . '.css', $fileDistPath);
+            File::copy($component->cssResourcesPath() . "/{$cssFile}", $fileDistPath);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function copyDependencies(Manifest $component, bool $usingForce = false): void
+    {
+        if ( ! $component->dependencies()) {
+            return;
+        }
+
+        $this->comment('Copying dependencies...');
+
+        foreach ($component->dependencies() as $dependencyComponent) {
+            $this->comment(sprintf(
+                'Installing dependency "%s"...',
+                $dependencyComponent->name
+            ));
+
+            $result = $this->call(
+                "lumen:install-component {$dependencyComponent->name}",
+                [
+                    '--with-dependencies' => true,
+                    '--force' => $usingForce,
+                ]
+            );
+
+            if (Command::SUCCESS !== $result) {
+                throw new Exception(sprintf(
+                    'Failed to install dependency "%s".',
+                    $dependencyComponent->name
+                ));
+            }
         }
     }
 

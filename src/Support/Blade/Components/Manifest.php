@@ -140,7 +140,7 @@ final readonly class Manifest
 
     public function jsDistPath(): string
     {
-        return config('lumen.installation.paths.js') . "/{$this->name}";
+        return config('lumen.installation.paths.js');
     }
 
     public function cssResourcesPath(): string
@@ -150,7 +150,7 @@ final readonly class Manifest
 
     public function cssDistPath(): string
     {
-        return config('lumen.installation.paths.css') . "/{$this->name}";
+        return config('lumen.installation.paths.css');
     }
 
     private static function create(string $name): self

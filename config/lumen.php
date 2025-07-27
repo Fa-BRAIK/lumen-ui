@@ -27,14 +27,7 @@ return [
                  *
                  * In order to install components, autoload MUST be disabled.
                  */
-                'enabled' => true,
-
-                /**
-                 * The namespace under which the components are registered.
-                 *
-                 * e.g. `x-lumen::button
-                 */
-                'namespace' => 'lumen',
+                'enabled' => false,
             ],
         ],
     ],

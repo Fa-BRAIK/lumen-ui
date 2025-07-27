@@ -18,15 +18,8 @@ class Components
 
         Blade::anonymousComponentPath(
             __DIR__ . '/../../../stubs/resources/views/components',
-            config('lumen.blade.components.autoload.namespace')
+            'lumen'
         );
-    }
-
-    public function dynamicComponentName(string $name): string
-    {
-        return is_string($namespace = config('lumen.blade.components.autoload.namespace'))
-            ? "{$namespace}::{$name}"
-            : $name;
     }
 
     /**

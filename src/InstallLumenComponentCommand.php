@@ -66,6 +66,11 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
 
         try {
             $this->installComponent($component);
+
+            if ($component->hasAssets() || $component->dependencies()) {
+                $this->newLine(2);
+                $this->warn('Please make sure to register the js and/or css assets in your application.');
+            }
         } catch (Exception $e) {
             $this->error(sprintf(
                 'Failed to install component "%s": %s',
@@ -179,7 +184,7 @@ final class InstallLumenComponentCommand extends Command implements PromptsForMi
     protected function copyAssets(Manifest $component, bool $usingForce = false): void
     {
         if ( ! $component->hasAssets()) {
-            return ;
+            return;
         }
 
         $this->comment('Copying assets...');

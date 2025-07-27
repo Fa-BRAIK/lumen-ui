@@ -17,7 +17,7 @@ import { registerComponent as registerSliderComponent } from './components/slide
 import { registerComponent as registerSwitchComponent } from './components/switch'
 import { registerComponent as registerTabsComponent } from './components/tabs'
 import { registerComponent as registerToggleComponent } from './components/toggle'
-import { registerComponent as registerToggleGroupComponent } from './components/toggle.group'
+import { registerComponent as registerToggleGroupComponent } from './components/toggle-group'
 import { registerComponent as registerTooltipComponent } from './components/tooltip'
 
 const registerAllComponents = () => {

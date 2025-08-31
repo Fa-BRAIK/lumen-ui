@@ -7,6 +7,8 @@
     'sideOffset' => 4,
 ])
 
+@php($componentParams = Js::from(compact('side', 'align', 'sideOffset')))
+
 @php($attributes = $attributes
     ->twMerge('bg-popover text-popover-foreground z-50 max-h-(--lumen-dropdown-menu-available-height) min-w-[8rem] origin-(--lumen-dropdown-menu-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md pointer-events-auto')
     ->merge([
@@ -14,7 +16,7 @@
         'data-slot' => 'dropdown-menu-content',
         'role' => 'menu',
         'tabindex' => '-1',
-        'x-dropdown-menu:content' => Js::from(compact('side', 'align', 'sideOffset')),
+        'x-data' => "dropdownMenuContent($componentParams)",
     ]))
 
 <template x-teleport="body">

@@ -9,7 +9,7 @@
         'as' => $as,
         'data-slot' => 'dropdown-menu-sub-trigger',
         'role' => 'menuitem',
-        'x-dropdown-menu:sub-trigger' => ''
+        'x-data' => 'dropdownMenuSubMenuTrigger',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

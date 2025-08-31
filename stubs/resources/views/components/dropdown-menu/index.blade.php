@@ -5,6 +5,8 @@
     'dir' => 'ltr',
 ])
 
+@php($componentParams = Js::from(compact('defaultOpen', 'dir', 'modal')))
+
 @php($attributes = $attributes
     ->merge([
         'as' => $as,
@@ -13,7 +15,7 @@
             '--lumen-dropdown-menu-available-height: calc(100vh - 2rem)',
             '--lumen-dropdown-menu-transform-origin:' . ($dir === 'rtl' ? 'right' : 'left'),
         ]),
-        'x-dropdown-menu' => Js::from(compact('defaultOpen', 'dir', 'modal'))
+        'x-data' => "dropdownMenu($componentParams)",
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

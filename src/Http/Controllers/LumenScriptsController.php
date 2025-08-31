@@ -8,14 +8,12 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
 
 readonly class LumenScriptsController extends Controller
 {
     protected const string CACHE_CONTROL = 'public, max-age=31536000';
+
     protected const string EXPIRES = '+1 year';
 
     public function __invoke(Request $request, string $name): Response

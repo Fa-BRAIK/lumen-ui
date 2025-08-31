@@ -7,7 +7,7 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'avatar',
-        'x-avatar' => '',
+        'x-data' => 'avatar',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

@@ -1,5 +1,3 @@
-@use('Lumen\Support\Blade\Components\Exceptions\InvalidComponentException')
-
 @props([
     'as' => 'div',
     // Type can be 'single' or 'multiple'
@@ -18,24 +16,16 @@
     'disabled' => false,
 ])
 
-@php(throw_unless(
-    in_array($type, ['single', 'multiple']),
-    InvalidComponentException::invalidAccordionType()
-))
-
-@php(throw_unless(
-    $type !== 'single' || !is_array($defaultValue),
-    InvalidComponentException::invalidAccordionDefaultValueRelativeToType()
-))
-
 @php($defaultValue = array_filter(is_array($defaultValue) ? $defaultValue : [$defaultValue]))
+
+@php($componentParams = Js::from(compact('defaultValue', 'type', 'orientation', 'dir', 'collapsible', 'loop', 'disabled')))
 
 @php($attributes = $attributes
     ->merge([
         'as' => $as,
         'data-type' => $type,
         'data-slot' => 'accordion',
-        'x-accordion' => Js::from(compact('defaultValue', 'type', 'orientation', 'dir', 'collapsible', 'loop', 'disabled'))
+        'x-data' => "accordion($componentParams)",
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

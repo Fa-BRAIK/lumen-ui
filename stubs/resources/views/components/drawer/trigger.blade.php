@@ -7,8 +7,8 @@
     ->merge([
         'as' => $as,
         'asChild' => $asChild,
-        'x-drawer:trigger' => '',
         'data-slot' => 'drawer-trigger',
+        'x-data' => 'drawerTrigger',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

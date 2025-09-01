@@ -7,7 +7,7 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'drawer-description',
-        'x-drawer:description' => '',
+        'x-data' => 'drawerDescription',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

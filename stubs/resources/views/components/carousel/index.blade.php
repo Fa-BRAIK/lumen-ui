@@ -1,5 +1,3 @@
-@use('Lumen\Support\Blade\Components\Exceptions\InvalidComponentException')
-
 @props([
     'as' => 'div',
     'orientation' => 'horizontal',
@@ -11,10 +9,14 @@
     'pluginNames' => [],
 ])
 
-@php(throw_unless(
-    ! array_key_exists('orientation', $options),
-    InvalidComponentException::invalidCarouselOrientationOption('The "orientation" option can not be passed from the "options" array. Instead, use the "orientation" prop directly.')
-))
+@php($componentParams = Js::from([
+    ...$options,
+    'orientation' => $orientation,
+    'direction' => $options['direction'] ?? 'ltr',
+    'loop' => $options['loop'] ?? false,
+    'pluginsObjectName' => $pluginsObjectName,
+    'pluginNames' => $pluginNames
+]))
 
 @php($attributes = $attributes
     ->twMerge('relative')
@@ -23,14 +25,7 @@
         'role' => 'region',
         'data-slot' => 'carousel',
         'aria-roledescription' => __('Carousel'),
-        'x-carousel' => Js::from([
-            ...$options,
-            'orientation' => $orientation,
-            'direction' => $options['direction'] ?? 'ltr',
-            'loop' => $options['loop'] ?? false,
-            'pluginsObjectName' => $pluginsObjectName,
-            'pluginNames' => $pluginNames
-        ])
+        'x-data' => "carousel($componentParams)",
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

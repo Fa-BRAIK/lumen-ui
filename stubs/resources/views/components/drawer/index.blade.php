@@ -4,11 +4,13 @@
     'modal' => true,
 ])
 
+@php($componentParams = Js::from(compact('defaultOpen', 'modal')))
+
 @php($attributes = $attributes
     ->merge([
         'as' => $as,
         'data-slot' => 'drawer-container',
-        'x-drawer' => Js::from(compact('defaultOpen', 'modal')),
+        'x-data' => "drawer($componentParams)",
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

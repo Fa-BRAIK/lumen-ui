@@ -7,7 +7,7 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'progress-indicator',
-        'x-progress:indicator' => ''
+        'x-data' => 'progressIndicator',
     ]))
 
 <x-lumen::primitive :attributes="$attributes" />

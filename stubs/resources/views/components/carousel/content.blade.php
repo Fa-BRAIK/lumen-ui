@@ -11,15 +11,13 @@
         'flex',
         $orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col'
     )
-    ->merge([
-        'as' => $as,
-    ]))
+    ->merge([ 'as' => $as ]))
 
 <x-lumen::primitive
     as="div"
     class="overflow-hidden"
     data-slot="carousel-content"
-    x-carousel:content=""
+    x-data="carouselContent"
 >
     <x-lumen::primitive :attributes="$attributes">
         {{ $slot }}

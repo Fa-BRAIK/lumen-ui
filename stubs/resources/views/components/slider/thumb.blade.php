@@ -7,12 +7,12 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'slider-thumb',
-        'x-slider:thumb' => '',
+        'x-data' => 'sliderThumb',
         'tabindex' => '0',
     ]))
 
 <span
-    style="{{ Arr::toCssStyles([ 
+    style="{{ Arr::toCssStyles([
         'position: absolute',
         'transform: var(--lumen-slider-thumb-transform-x)',
         'z-index: var(--lumen-slider-thumb-z-index, 1)'

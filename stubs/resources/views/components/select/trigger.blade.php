@@ -12,7 +12,7 @@
         'type' => 'button',
         'data-slot' => 'select-trigger',
         'role' => 'combobox',
-        'x-select:trigger' => ''
+        'x-data' => 'selectTrigger',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

@@ -8,16 +8,11 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
 
 readonly class LumenScriptsController extends Controller
 {
     protected const string CACHE_CONTROL = 'public, max-age=31536000';
-
-    protected const string NONCE_SECRET = 'xen0l3g1c';
 
     protected const string EXPIRES = '+1 year';
 
@@ -48,18 +43,5 @@ readonly class LumenScriptsController extends Controller
         } catch (FileNotFoundException) {
             abort(Response::HTTP_NOT_FOUND);
         }
-    }
-
-    protected function generateNonce(int $length = 10): string
-    {
-        if ($length < 1) {
-            throw new InvalidArgumentException('Nonce length must be greater than 0.');
-        }
-
-        $salt = Str::random($length);
-        $now = (string) now()->timestamp;
-        $secret = self::NONCE_SECRET;
-
-        return Hash::make($salt . $now . $secret);
     }
 }

@@ -5,6 +5,8 @@
     'defaultChecked' => false,
 ])
 
+@php($componentParams = Js::from(compact('defaultChecked', 'disabled')))
+
 @php($attributes = $attributes
     ->twMerge('peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50')
     ->merge([
@@ -12,7 +14,7 @@
         'type' => 'button',
         'role' => 'switch',
         'data-slot' => 'switch',
-        'x-switch' => Js::from(compact('defaultChecked', 'disabled'))
+        'x-data' => "switchInput($componentParams)",
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

@@ -10,7 +10,7 @@
         'type' => $as === 'button' ? $type : null,
         'asChild' => $asChild,
         'data-slot' => 'drawer-close',
-        'x-drawer:close' => '',
+        'x-data' => 'drawerClose',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

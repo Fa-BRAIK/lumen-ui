@@ -4,6 +4,8 @@
     'side' => 'bottom',
 ])
 
+@php($componentParams = Js::from(compact('side')))
+
 @php($attributes = $attributes
     ->twMerge(
         'group/drawer-content fixed open:block bg-background backdrop:bg-black/50 shadow-lg gap-4 border w-full max-w-full duration-200',
@@ -14,8 +16,8 @@
     )
     ->merge([
         'as' => $as,
-        'x-drawer:content' => Js::from(compact('side')),
         'data-slot' => 'drawer-dialog',
+        'x-data' => "drawerContent($componentParams)",
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

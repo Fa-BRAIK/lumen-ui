@@ -10,7 +10,7 @@
         'variant' => $variant,
         'size' => $size,
         'data-slot' => 'alert-dialog-cancel',
-        'x-alert-dialog:cancel' => '',
+        'x-data' => 'alertDialogCancel',
     ]))
 
 <x-lumen::button :attributes="$attributes">

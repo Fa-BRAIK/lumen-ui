@@ -7,7 +7,7 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'accordion-content',
-        'x-accordion:content' => ''
+        'x-data' => 'accordionContent',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

@@ -14,6 +14,8 @@
     'disabled' => false,
 ])
 
+@php($componentParams = Js::from(compact('value', 'disabled', 'orientation', 'type', 'dir')))
+
 @php($attributes = $attributes
     ->twMerge('min-w-0 flex-1 shrink-0 rounded-none shadow-none first:rounded-l-md last:rounded-r-md focus:z-10 focus-visible:z-10 data-[variant=outline]:border-l-0 data-[variant=outline]:first:border-l')
     ->merge([
@@ -24,7 +26,7 @@
         'data-variant' => $variant,
         'data-size' => $size,
         'tab-index' => '-1',
-        "x-toggle-group.$type:item" => Js::from(compact('value', 'disabled', 'orientation', 'dir'))
+        'x-data' => "toggleGroupItem($componentParams)",
     ]))
 
 <x-lumen::toggle :attributes="$attributes">

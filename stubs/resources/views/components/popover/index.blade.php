@@ -4,10 +4,12 @@
     'dir' => 'ltr',
 ])
 
+@php($componentParams = Js::from(compact('defaultOpen')))
+
 @php($attributes = $attributes
     ->merge([
         'as' => $as,
-        'x-popover' => Js::from(compact('defaultOpen')),
+        'x-data' => "popover($componentParams)",
         'style' => Arr::toCssStyles([
             '--lumen-popover-content-transform-origin: ' . ($dir === 'rtl' ? 'right' : 'left'),
         ])

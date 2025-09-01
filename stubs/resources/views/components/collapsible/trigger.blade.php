@@ -9,7 +9,7 @@
         'as' => $as,
         'asChild' => $asChild,
         'data-slot' => 'collapsible-trigger',
-        'x-collapsible:trigger' => '',
+        'x-data' => 'collapsibleTrigger',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

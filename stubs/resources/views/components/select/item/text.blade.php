@@ -6,7 +6,7 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'select-item-text',
-        'x-select:item-text' => ''
+        'x-data' => 'selectItemText',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

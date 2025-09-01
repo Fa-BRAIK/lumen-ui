@@ -3,11 +3,13 @@
     'placeholder' => '',
 ])
 
+@php($componentParams = Js::from(compact('placeholder')))
+
 @php($attributes = $attributes
     ->merge([
         'as' => $as,
         'data-slot' => 'select-value',
-        'x-select:value' => Js::from(compact('placeholder')),
+        'x-data' => "selectValue($componentParams)",
         'style' => 'pointer-events: none;'
     ]))
 

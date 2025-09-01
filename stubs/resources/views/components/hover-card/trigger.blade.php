@@ -7,7 +7,7 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'hover-card-trigger',
-        'x-hover-card:trigger' => '',
+        'x-data' => 'hoverCardTrigger'
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

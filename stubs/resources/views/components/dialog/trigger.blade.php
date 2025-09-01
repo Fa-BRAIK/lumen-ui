@@ -7,7 +7,7 @@
     ->merge([
         'as' => $as,
         'x-dialog:trigger' => '',
-        'data-slot' => 'dialog-trigger',
+        'x-data' => 'dialogTrigger',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

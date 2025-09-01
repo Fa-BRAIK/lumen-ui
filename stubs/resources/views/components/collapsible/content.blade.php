@@ -7,7 +7,7 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'collapsible-content',
-        'x-collapsible:content' => '',
+        'x-data' => 'collapsibleContent',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

@@ -10,11 +10,13 @@
     'activationMode' => 'automatic'
 ])
 
+@php($componentParams = Js::from(compact('defaultValue', 'orientation', 'dir', 'activationMode')))
+
 @php($attributes = $attributes
     ->twMerge('flex flex-col gap-2')
     ->merge([
         'as' => $as,
-        'x-tab' => Js::from(compact('defaultValue', 'orientation', 'dir', 'activationMode')),
+        'x-data' => "tabs($componentParams)",
         'data-slot' => 'tabs',
     ]))
 

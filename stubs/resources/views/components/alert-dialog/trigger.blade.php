@@ -6,7 +6,7 @@
 @php($attributes = $attributes
     ->merge([
         'as' => $as,
-        'x-alert-dialog:trigger' => '',
+        'x-data' => 'alertDialogTrigger',
         'data-slot' => 'alert-dialog-trigger',
     ]))
 

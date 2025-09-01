@@ -7,13 +7,15 @@
     'sideOffset' => 4,
 ])
 
+@php($componentParams = Js::from(compact('side', 'align', 'sideOffset')))
+
 @php($attributes = $attributes
     ->twMerge('bg-popover text-popover-foreground relative z-50 min-w-[8rem] origin-(--lumen-select-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border shadow-md pointer-events-auto')
     ->merge([
         'as' => $as,
         'data-slot' => 'select-content',
         'role' => 'listbox',
-        'x-select:content' => Js::from(compact('side', 'align', 'sideOffset')),
+        'x-data' => "selectContent($componentParams)",
         'style' => Arr::toCssStyles([
             'width: var(--lumen-trigger-width)',
         ])

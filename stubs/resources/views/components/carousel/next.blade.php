@@ -16,7 +16,7 @@
         'variant' => $variant,
         'size' => $size,
         'data-slot' => 'carousel-next',
-        'x-carousel:next' => ''
+        'x-data' => 'carouselNext',
     ]))
 
 <x-lumen::button :attributes="$attributes">

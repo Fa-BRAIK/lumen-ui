@@ -7,7 +7,7 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'select-scroll-down-button',
-        'x-select:scroll-down-button' => ''
+        'x-data' => 'selectScrollDownButton',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

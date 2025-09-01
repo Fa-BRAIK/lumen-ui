@@ -1,5 +1,3 @@
-@use('Lumen\Support\Blade\Components\Exceptions\InvalidComponentException')
-
 @props([
     'as' => 'div',
     'delayDuration' => 0,
@@ -7,17 +5,14 @@
     'defaultOpen' => false,
 ])
 
-@php(throw_unless(
-    is_numeric($delayDuration) && $delayDuration >= 0,
-    InvalidComponentException::invalidTooltipDelayDuration()
-))
+@php($componentParams = Js::from(compact('delayDuration', 'skipDelayDuration', 'defaultOpen')))
 
 @php($attributes = $attributes
     ->twMerge('')
     ->merge([
         'as' => $as,
         'data-slot' => 'tooltip',
-        'x-tooltip' => Js::from(compact('delayDuration', 'skipDelayDuration', 'defaultOpen'))
+        'x-data' => "tooltip($componentParams)",
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

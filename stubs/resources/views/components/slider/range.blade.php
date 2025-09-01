@@ -7,7 +7,7 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'slider-range',
-        'x-slider:range' => '',
+        'x-data' => 'sliderRange',
     ]))
 
 <x-lumen::primitive :attributes="$attributes" />

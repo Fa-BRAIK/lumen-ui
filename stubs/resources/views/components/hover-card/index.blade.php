@@ -1,5 +1,3 @@
-@use('Lumen\Support\Blade\Components\Exceptions\InvalidComponentException')
-
 @props([
     'as' => 'div',
     'defaultOpen' => false,
@@ -8,15 +6,12 @@
     'dir' => 'ltr',
 ])
 
-@php(throw_unless(
-    is_numeric($delayDuration) && $delayDuration >= 0,
-    InvalidComponentException::invalidHoverCardDelayDuration()
-))
+@php($componentParams = Js::from(compact('defaultOpen', 'delayDuration', 'closeDelay')))
 
 @php($attributes = $attributes
     ->merge([
         'as' => $as,
-        'x-hover-card' => Js::from(compact('defaultOpen', 'delayDuration', 'closeDelay')),
+        'x-data' => "hoverCard($componentParams)",
         'style' => Arr::toCssStyles([
             '--lumen-hover-card-content-transform-origin: ' . ($dir === 'rtl' ? 'right' : 'left'),
         ])

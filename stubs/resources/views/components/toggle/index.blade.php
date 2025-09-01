@@ -29,6 +29,8 @@
     ],
 ) extends ClassVarianceAuthority {})
 
+@php($componentParams = Js::from(compact('defaultPressed', 'disabled')))
+
 @php($attributes = $attributes
     ->twMerge($toggleVariants(variant: $variant, size: $size))
     ->merge([
@@ -37,7 +39,7 @@
         'role' => 'toggle',
         'data-slot' => $dataSlot = $attributes->get('data-slot', 'toggle'),
     ])
-    ->merge($dataSlot === 'toggle' ? ['x-toggle' => Js::from(compact('defaultPressed', 'disabled'))] : []))
+    ->merge($dataSlot === 'toggle' ? ['x-data' => "toggle($componentParams)"] : []))
 
 <x-lumen::primitive :attributes="$attributes">
     {{ $slot }}

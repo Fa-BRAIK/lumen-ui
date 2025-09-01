@@ -7,12 +7,14 @@
     'sideOffset' => 4,
 ])
 
+@php($componentParams = Js::from(compact('side', 'align', 'sideOffset')))
+
 @php($attributes = $attributes
     ->twMerge('bg-popover text-popover-foreground z-50 w-64 origin-(--lumen-hover-card-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden')
     ->merge([
         'as' => $as,
         'data-slot' => 'hover-card-content',
-        'x-hover-card:content' => Js::from(compact('side', 'align', 'sideOffset'))
+        'x-data' => "hoverCardContent($componentParams)",
     ]))
 
 <template x-teleport="body">

@@ -9,7 +9,7 @@
         'asChild' => $asChild,
         'data-slot' => 'dropdown-menu-trigger',
         'aria-haspopup' => 'true',
-        'x-dropdown-menu:trigger' => ''
+        'x-data' => 'dropdownMenuTrigger',
     ])
     ->merge($asChild ? [] : ['tab-index' => '0']))
 

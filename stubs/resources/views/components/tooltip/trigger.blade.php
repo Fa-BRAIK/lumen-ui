@@ -8,7 +8,7 @@
         'as' => $as,
         'asChild' => $asChild,
         'data-slot' => 'tooltip-trigger',
-        'x-tooltip:trigger' => ''
+        'x-data' => 'tooltipTrigger'
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

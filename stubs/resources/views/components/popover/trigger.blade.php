@@ -7,7 +7,7 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'popover-trigger',
-        'x-popover:trigger' => '',
+        'x-data' => 'popoverTrigger()',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

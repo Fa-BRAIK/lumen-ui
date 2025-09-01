@@ -9,69 +9,45 @@ export const registerComponent = () => {
         return image.complete && image.naturalWidth > 0 ? 'loaded' : 'loading'
     }
 
-    const handleRoot = (el, Alpine) => {
-        Alpine.bind(el, () => ({
-            'x-data'() {
-                return {
-                    __main: el,
-                    __status: 'idle', // 'idle', 'loading', 'loaded', 'error'
+    Alpine.data('avatar', () => ({
+        __main: undefined,
+        __status: 'idle', // 'idle', 'loading', 'loaded', 'error'
 
-                    __onStatusChange(image, src) {
-                        this.__status = resolveLoadingStatus(image, src)
-                    },
-
-                    init() {
-                        this.$el.removeAttribute('x-avatar')
-                    },
-                }
-            },
-        }))
-    }
-
-    const handleImage = (el, Alpine, { src }) => {
-        Alpine.bind(el, () => ({
-            'x-show'() {
-                return this.__status === 'loading' || this.__status === 'loaded'
-            },
-            'x-data'() {
-                return {
-                    src,
-                }
-            },
-            'x-init'() {
-                this.$el.removeAttribute('x-avatar:image')
-                this.$el.onload = () =>
-                    this.__onStatusChange(this.$el, this.src)
-                this.$el.onerror = () => this.__onStatusChange(this.$el, null)
-                this.$el.src = this.src
-            },
-        }))
-    }
-
-    const handleFallback = (el, Alpine) => {
-        Alpine.bind(el, () => ({
-            'x-show'() {
-                return this.__status === 'error' || this.__status === 'idle'
-            },
-            'x-data': '',
-            'x-init'() {
-                this.$el.removeAttribute('x-avatar:fallback')
-                this.__main._x_lumen_fallback = this.$el
-            },
-        }))
-    }
-
-    Alpine.directive(
-        'avatar',
-        (el, { value, expression }, { Alpine, evaluate }) => {
-            const params = expression ? evaluate(expression) : {}
-
-            if (!value) handleRoot(el, Alpine, params)
-            else if (value === 'image') handleImage(el, Alpine, params)
-            else if (value === 'fallback') handleFallback(el, Alpine, params)
-            else {
-                console.warn(`Unknown avatar directive value: ${value}`)
-            }
+        __onStatusChange(image, src) {
+            this.__status = resolveLoadingStatus(image, src)
         },
-    ).before('bind')
+
+        init() {
+            this.__main = this.$el
+        },
+    }))
+
+    Alpine.data('avatarImage', ({ src }) => ({
+        src,
+
+        init() {
+            this.$el.onload = () => this.__onStatusChange(this.$el, this.src)
+            this.$el.onerror = () => this.__onStatusChange(this.$el, null)
+            this.$el.src = this.src
+            Alpine.bind(this.$el, {
+                'x-show'() {
+                    return (
+                        this.__status === 'loading' ||
+                        this.__status === 'loaded'
+                    )
+                },
+            })
+        },
+    }))
+
+    Alpine.data('avatarFallback', () => ({
+        init() {
+            this.__main._x_lumen_fallback = this.$el
+            Alpine.bind(this.$el, {
+                'x-show'() {
+                    return this.__status === 'error' || this.__status === 'idle'
+                },
+            })
+        },
+    }))
 }

@@ -8,7 +8,7 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'accordion-trigger',
-        'x-accordion:trigger' => ''
+        'x-data' => 'accordionTrigger',
     ]))
 
 <div class="flex" data-slot="accordion-header">

@@ -6,7 +6,7 @@
     ->merge([
         'as' => $as,
         'data-slot' => 'dropdown-menu-sub',
-        'x-dropdown-menu:sub' => ''
+        'x-data' => 'dropdownMenuSubMenu',
     ]))
 
 <x-lumen::primitive :attributes="$attributes">

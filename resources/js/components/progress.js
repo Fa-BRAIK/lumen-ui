@@ -11,59 +11,39 @@ export const registerComponent = () => {
         },
     }
 
-    const handleRoot = (el, Alpine, { value, max }) => {
-        Alpine.bind(el, () => ({
-            ...commonProps,
-            ':aria-valuemin'() {
-                return this.initialValue
-            },
-            ':aria-valuemax'() {
-                return this.max
-            },
-            'x-data'() {
-                return {
-                    initialValue: value,
-                    __value: value,
-                    max,
+    Alpine.data('progress', ({ value, max }) => ({
+        initialValue: value,
+        __value: value,
+        max,
 
-                    get state() {
-                        return this._value >= this.max ? 'complete' : 'loading'
-                    },
-
-                    init() {
-                        this.$el.removeAttribute('x-progress')
-                    },
-                }
-            },
-            'x-modelable': '__value',
-        }))
-    }
-
-    const handleIndicator = (el, Alpine, {}) => {
-        Alpine.bind(el, () => ({
-            ...commonProps,
-            ':style'() {
-                return {
-                    transform: `translateX(-${100 - (this.__value ?? 0)}%)`,
-                }
-            },
-            'x-data': '',
-            'x-init'() {
-                this.$el.removeAttribute('x-progress:indicator')
-            },
-        }))
-    }
-
-    Alpine.directive(
-        'progress',
-        (e, { value, expression }, { Alpine, evaluate }) => {
-            const params = expression ? evaluate(expression) : {}
-
-            if (!value) handleRoot(e, Alpine, params)
-            else if (value === 'indicator') handleIndicator(e, Alpine, params)
-            else {
-                console.warn(`Unknown progress directive value: ${value}`)
-            }
+        get state() {
+            return this._value >= this.max ? 'complete' : 'loading'
         },
-    ).before('bind')
+
+        init() {
+            Alpine.bind(this.$el, {
+                ...commonProps,
+                ':aria-valuemin'() {
+                    return this.initialValue
+                },
+                ':aria-valuemax'() {
+                    return this.max
+                },
+                'x-modelable': '__value',
+            })
+        },
+    }))
+
+    Alpine.data('progressIndicator', () => ({
+        init() {
+            Alpine.bind(this.$el, {
+                ...commonProps,
+                ':style'() {
+                    return {
+                        transform: `translateX(-${100 - (this.__value ?? 0)}%)`,
+                    }
+                },
+            })
+        },
+    }))
 }

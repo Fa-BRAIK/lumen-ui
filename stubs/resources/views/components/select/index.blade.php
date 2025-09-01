@@ -6,12 +6,14 @@
     'disabled' => false,
 ])
 
+@php($componentParams = Js::from(compact('defaultValue', 'defaultOpen', 'dir', 'disabled')))
+
 @php($attributes = $attributes
     ->twMerge('')
     ->merge([
         'as' => $as,
         'data-slot' => 'select',
-        'x-select' => Js::from(compact('defaultValue', 'defaultOpen', 'dir', 'disabled')),
+        'x-data' => "select($componentParams)",
         'style' => Arr::toCssStyles([
             '--lumen-select-transform-origin:' . ($dir === 'rtl' ? 'right' : 'left'),
         ]),

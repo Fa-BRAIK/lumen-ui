@@ -4,11 +4,13 @@
     'disabled' => false,
 ])
 
+@php($componentParams = Js::from(compact('defaultValue', 'disabled')))
+
 @php($attributes = $attributes
     ->merge([
         'as' => $as,
         'data-slot' => 'dropdown-menu-radio-group',
-        'x-dropdown-menu:radio-group' => Js::from(compact('defaultValue', 'disabled')),
+        'x-data' => "dropdownMenuRadioGroup($componentParams)",
         'role' => 'menuitemradiogroup'
     ]))
 

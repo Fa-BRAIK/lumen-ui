@@ -1,5 +1,3 @@
-@use('Lumen\Support\Blade\Components\Exceptions\InvalidComponentException')
-
 @props([
     'as' => 'div',
     // The variant applied to the toggle buttons, can be 'default' or 'outline'
@@ -8,9 +6,9 @@
     'size' => 'base',
     // The type of toggle group, can be 'single' or 'multiple'
     'type' => 'multiple',
-    // The default value for the toggle group, 
+    // The default value for the toggle group,
     'defaultValue' => [],
-    // When set to false, navigating using arrow keys will be disabled 
+    // When set to false, navigating using arrow keys will be disabled
     'rovingFocus' => true,
     // The orientation of the toggle group, can be 'horizontal' or 'vertical'
     'orientation' => 'horizontal',
@@ -22,10 +20,7 @@
     'disabled' => false
 ])
 
-@php(throw_unless(
-    in_array($type, ['single', 'multiple']),
-    InvalidComponentException::invalidToggleGroupType()
-))
+@php($componentParams = Js::from(compact('defaultValue', 'rovingFocus', 'orientation', 'dir', 'loop', 'type', 'disabled')))
 
 @php($attributes = $attributes
     ->twMerge('group/toggle-group flex w-fit items-center rounded-md data-[variant=outline]:shadow-xs')
@@ -35,7 +30,7 @@
         'data-variant' => $variant,
         'data-size' => $size,
         'tabindex' => '-1',
-        "x-toggle-group.$type" => Js::from(compact('defaultValue', 'rovingFocus', 'orientation', 'dir', 'loop', 'disabled'))
+        'x-data' => "toggleGroup($componentParams)",
     ])
     ->exceptProps(['default-value']))
 

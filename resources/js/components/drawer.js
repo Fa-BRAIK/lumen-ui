@@ -196,7 +196,7 @@ export const registerComponent = () => {
         },
     }))
 
-    Alpine.bind('drawerDescription', () => ({
+    Alpine.data('drawerDescription', () => ({
         init() {
             this.$el
                 .closest('dialog')
